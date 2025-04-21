@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,6 +12,7 @@ import Register from "./pages/Register";
 import UserProfile from "./pages/UserProfile";
 import Gallery from "./pages/Gallery";
 import SignIn from "./pages/SignIn";
+import AppLayout from "@/components/layout/AppLayout";
 
 const queryClient = new QueryClient();
 
@@ -21,15 +23,20 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/catalog" element={<CakeCatalog />} />
-          <Route path="/cake/:id" element={<CakeDetail />} />
+          {/* Pages WITHOUT navbar */}
           <Route path="/register" element={<Register />} />
           <Route path="/signin" element={<SignIn />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/gallery" element={<Gallery />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
+
+          {/* Pages WITH navbar */}
+          <Route element={<AppLayout />}>
+            <Route path="/" element={<Index />} />
+            <Route path="/catalog" element={<CakeCatalog />} />
+            <Route path="/cake/:id" element={<CakeDetail />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/gallery" element={<Gallery />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </TooltipProvider>

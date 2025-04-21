@@ -1,7 +1,5 @@
-
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CakeCard from "@/components/cakes/CakeCard";
 import { Search, Filter, ChevronDown } from "lucide-react";
@@ -107,8 +105,6 @@ const CakeCatalog = () => {
   
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-      
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page header */}
         <div className="border-b border-gray-200 pb-6 mb-8">
