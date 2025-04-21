@@ -9,6 +9,7 @@ import CakeDetail from "./pages/CakeDetail";
 import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import UserProfile from "./pages/UserProfile";
+import Gallery from "./pages/Gallery";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/cake/:id" element={<CakeDetail />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/gallery" element={<Gallery />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

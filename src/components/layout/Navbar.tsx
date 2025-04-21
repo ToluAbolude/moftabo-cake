@@ -1,7 +1,6 @@
-
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Menu, X, ShoppingCart, User, CakeSlice } from "lucide-react";
+import { Menu, X, ShoppingCart, User, CakeSlice, GalleryHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
@@ -25,7 +24,8 @@ const Navbar = () => {
             <Link to="/custom" className="text-gray-700 hover:text-cake-purple transition-colors px-3 py-2">
               Custom Order
             </Link>
-            <Link to="/gallery" className="text-gray-700 hover:text-cake-purple transition-colors px-3 py-2">
+            <Link to="/gallery" className="text-gray-700 hover:text-cake-purple transition-colors px-3 py-2 flex items-center gap-2">
+              <GalleryHorizontal className="h-4 w-4" />
               Gallery
             </Link>
             <Link to="/about" className="text-gray-700 hover:text-cake-purple transition-colors px-3 py-2">
@@ -89,9 +89,10 @@ const Navbar = () => {
             </Link>
             <Link
               to="/gallery"
-              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-cake-purple"
+              className="flex items-center px-3 py-2 text-base font-medium text-gray-700 hover:text-cake-purple gap-2"
               onClick={() => setIsMenuOpen(false)}
             >
+              <GalleryHorizontal className="h-4 w-4" />
               Gallery
             </Link>
             <Link
