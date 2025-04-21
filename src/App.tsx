@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import Register from "./pages/Register";
 import UserProfile from "./pages/UserProfile";
 import Gallery from "./pages/Gallery";
+import SignIn from "./pages/SignIn";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/catalog" element={<CakeCatalog />} />
           <Route path="/cake/:id" element={<CakeDetail />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/gallery" element={<Gallery />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

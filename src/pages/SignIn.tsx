@@ -1,21 +1,21 @@
+
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
 
+// You must have supabase client set up via Lovable's integration
 const supabase = (window as any).supabase;
 
-const Register = () => {
+const SignIn = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const [form, setForm] = useState({
     email: "",
     password: "",
-    confirm: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -29,28 +29,24 @@ const Register = () => {
       toast({ title: "Please enter a valid email.", variant: "destructive" });
       return;
     }
-    if (form.password.length < 6) {
-      toast({ title: "Password must be at least 6 characters.", variant: "destructive" });
-      return;
-    }
-    if (form.password !== form.confirm) {
-      toast({ title: "Passwords do not match.", variant: "destructive" });
+    if (!form.password) {
+      toast({ title: "Please enter your password.", variant: "destructive" });
       return;
     }
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signInWithPassword({
         email: form.email,
         password: form.password,
       });
       if (error) {
         toast({ title: error.message, variant: "destructive" });
       } else {
-        toast({ title: "Registration successful! Please check your email for confirmation." });
+        toast({ title: "Welcome back!" });
         navigate("/profile");
       }
     } catch (err: any) {
-      toast({ title: "Registration failed. Try again.", variant: "destructive" });
+      toast({ title: "Sign in failed. Try again.", variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -60,7 +56,7 @@ const Register = () => {
     <div className="flex justify-center items-center min-h-[70vh] bg-soft-purple">
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader>
-          <CardTitle className="text-center text-cake-purple">Register</CardTitle>
+          <CardTitle className="text-center text-cake-purple">Sign In</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -77,26 +73,17 @@ const Register = () => {
               name="password"
               type="password"
               placeholder="Password"
-              autoComplete="new-password"
+              autoComplete="current-password"
               onChange={handleChange}
               value={form.password}
               required
             />
-            <Input
-              name="confirm"
-              type="password"
-              placeholder="Confirm Password"
-              autoComplete="new-password"
-              onChange={handleChange}
-              value={form.confirm}
-              required
-            />
             <Button type="submit" disabled={loading} className="w-full bg-cake-purple hover:bg-cake-dark-purple">
-              {loading ? "Registering..." : "Register"}
+              {loading ? "Signing in..." : "Sign In"}
             </Button>
             <div className="text-sm text-center mt-2">
-              Already have an account?{" "}
-              <Link to="/signin" className="text-cake-purple hover:underline">Sign in</Link>
+              New to Moftabo?{" "}
+              <Link to="/register" className="text-cake-purple hover:underline">Create an account</Link>
             </div>
           </form>
         </CardContent>
@@ -105,4 +92,5 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default SignIn;
+
