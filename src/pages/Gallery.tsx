@@ -1,5 +1,6 @@
 
-import { images } from "lucide-react";
+import { Images } from "lucide-react";
+
 const galleryImages = [
   {
     src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?auto=format&fit=crop&w=400&q=80",
@@ -48,7 +49,7 @@ const Gallery = () => {
     <div className="min-h-[80vh] bg-soft-purple/50 py-12">
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex items-center mb-8 gap-3">
-          <images className="h-8 w-8 text-cake-purple" />
+          <Images className="h-8 w-8 text-cake-purple" />
           <h1 className="text-3xl md:text-4xl font-bold text-cake-dark-purple">Cake Gallery</h1>
         </div>
         <p className="text-neutral-gray mb-10 text-lg max-w-2xl">
