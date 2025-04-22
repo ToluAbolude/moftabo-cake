@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -14,6 +13,7 @@ import Gallery from "./pages/Gallery";
 import SignIn from "./pages/SignIn";
 import AdminDashboard from "./pages/AdminDashboard";
 import AppLayout from "@/components/layout/AppLayout";
+import CustomOrder from "./pages/CustomOrder";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +35,7 @@ const App = () => (
             <Route path="/cake/:id" element={<CakeDetail />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/custom" element={<CustomOrder />} />
             <Route path="/admin" element={<AdminDashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
