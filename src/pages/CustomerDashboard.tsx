@@ -7,13 +7,16 @@ import { PackageOpen, ShoppingBag, CalendarClock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Json } from "@/integrations/supabase/types";
 
 interface Order {
   id: string;
   created_at: string;
-  status: string;
+  status: string | null;
   total_amount: number;
-  items: any[];
+  items: Json; // Changed from any[] to Json to match Supabase's type
+  user_id?: string;
+  stripe_session_id?: string | null;
 }
 
 const CustomerDashboard = () => {
@@ -59,7 +62,7 @@ const CustomerDashboard = () => {
         console.error("Error fetching orders:", error);
         toast({ title: "Failed to load orders", variant: "destructive" });
       } else {
-        setOrders(data || []);
+        setOrders(data as Order[] || []);
       }
     } catch (error) {
       console.error("Error fetching orders:", error);
