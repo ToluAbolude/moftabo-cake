@@ -34,8 +34,8 @@ const Navbar = () => {
             <Link to="/register" className="text-gray-700 hover:text-cake-purple transition-colors px-3 py-2">
               Register
             </Link>
-            <Link to="/profile" className="text-gray-700 hover:text-cake-purple transition-colors px-3 py-2">
-              Profile
+            <Link to="/admin" className="text-gray-700 hover:text-cake-purple transition-colors px-3 py-2">
+              Admin
             </Link>
             
             <div className="flex items-center space-x-3">
@@ -116,6 +116,13 @@ const Navbar = () => {
             >
               <User className="h-4 w-4 mr-2" />
               Profile
+            </Link>
+            <Link
+              to="/admin"
+              className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-cake-purple"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Admin
             </Link>
           </div>
         </div>

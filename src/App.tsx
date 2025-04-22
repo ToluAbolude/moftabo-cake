@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import UserProfile from "./pages/UserProfile";
 import Gallery from "./pages/Gallery";
 import SignIn from "./pages/SignIn";
+import AdminDashboard from "./pages/AdminDashboard";
 import AppLayout from "@/components/layout/AppLayout";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/cake/:id" element={<CakeDetail />} />
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/admin" element={<AdminDashboard />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Route>
