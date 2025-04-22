@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +14,7 @@ import UserProfile from "./pages/UserProfile";
 import Gallery from "./pages/Gallery";
 import SignIn from "./pages/SignIn";
 import AdminDashboard from "./pages/AdminDashboard";
+import CustomerDashboard from "./pages/CustomerDashboard";
 import AppLayout from "@/components/layout/AppLayout";
 import CustomOrder from "./pages/CustomOrder";
 
@@ -36,6 +38,7 @@ const App = () => (
               <Route path="/catalog" element={<CakeCatalog />} />
               <Route path="/cake/:id" element={<CakeDetail />} />
               <Route path="/profile" element={<UserProfile />} />
+              <Route path="/dashboard" element={<CustomerDashboard />} />
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/custom" element={<CustomOrder />} />
               <Route path="/admin" element={<AdminDashboard />} />

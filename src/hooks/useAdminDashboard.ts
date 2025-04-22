@@ -19,6 +19,14 @@ interface StatsSummary {
   questionsGrowth: number;
 }
 
+interface OrderData {
+  id: string;
+  created_at: string;
+  status: string | null;
+  total_amount: number;
+  email: string | null;
+}
+
 export const useAdminDashboard = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -31,6 +39,7 @@ export const useAdminDashboard = () => {
     visitsGrowth: 0,
     questionsGrowth: 0
   });
+  const [recentOrders, setRecentOrders] = useState<OrderData[]>([]);
   const [loading, setLoading] = useState(true);
 
   const checkAdminAccess = async () => {
@@ -41,6 +50,14 @@ export const useAdminDashboard = () => {
         navigate("/signin");
         return false;
       }
+
+      // Check if user is admin - in a real app, we would check a user_roles table
+      if (session.user.email !== 'admin@moftabo.com') {
+        toast({ title: "You do not have admin access", variant: "destructive" });
+        navigate("/");
+        return false;
+      }
+      
       return true;
     } catch (error) {
       console.error("Error checking admin access:", error);
@@ -53,6 +70,7 @@ export const useAdminDashboard = () => {
   const fetchDashboardData = async () => {
     setLoading(true);
     try {
+      // Generate mock chart data
       const currentDate = new Date();
       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       
@@ -90,6 +108,27 @@ export const useAdminDashboard = () => {
           Math.floor(previousData.visits * 0.08)
         )),
       });
+
+      // Generate mock recent orders
+      const mockOrders = Array(10).fill(0).map((_, i) => {
+        const date = new Date();
+        date.setDate(date.getDate() - i);
+        
+        const statuses = ['completed', 'processing', 'pending'];
+        const status = statuses[Math.floor(Math.random() * statuses.length)];
+        
+        const amount = Math.floor(Math.random() * 500) + 50;
+        
+        return {
+          id: `order-${crypto.randomUUID()}`,
+          created_at: date.toISOString(),
+          status: status,
+          total_amount: amount,
+          email: `customer${i + 1}@example.com`
+        };
+      });
+      
+      setRecentOrders(mockOrders);
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
       toast({ title: "Failed to load dashboard data", variant: "destructive" });
@@ -109,5 +148,5 @@ export const useAdminDashboard = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return { chartData, stats, loading };
+  return { chartData, stats, recentOrders, loading };
 };
