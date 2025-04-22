@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { Facebook } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import type { Provider } from "@supabase/supabase-js";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -72,7 +73,7 @@ const SignIn = () => {
     }
   };
 
-  const handleSocialSignIn = async (provider: 'facebook' | 'google') => {
+  const handleSocialSignIn = async (provider: Provider) => {
     setLoading(true);
     try {
       let { error } = await supabase.auth.signInWithOAuth({

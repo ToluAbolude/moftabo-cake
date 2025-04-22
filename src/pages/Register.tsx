@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -9,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Facebook } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import type { Provider } from "@supabase/supabase-js";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -56,9 +56,6 @@ const Register = () => {
       if (signUpError) {
         toast({ title: signUpError.message, variant: "destructive" });
       } else {
-        // We'll let the database trigger handle the user role assignment
-        // No need to manually set the role for regular users
-        
         toast({ title: "Registration successful! Please check your email for confirmation." });
         navigate("/profile");
       }
@@ -69,7 +66,7 @@ const Register = () => {
     }
   };
 
-  const handleSocialSignIn = async (provider: 'facebook' | 'google') => {
+  const handleSocialSignIn = async (provider: Provider) => {
     setLoading(true);
     try {
       let { error } = await supabase.auth.signInWithOAuth({
