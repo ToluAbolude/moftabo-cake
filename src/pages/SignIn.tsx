@@ -7,9 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Instagram } from "lucide-react";
-
-// You must have supabase client set up via Lovable's integration
-const supabase = (window as any).supabase;
+import { supabase } from "@/integrations/supabase/client";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -38,16 +36,30 @@ const SignIn = () => {
     }
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error: signInError, data } = await supabase.auth.signInWithPassword({
         email: form.email,
         password: form.password,
       });
-      if (error) {
-        toast({ title: error.message, variant: "destructive" });
+
+      if (signInError) {
+        toast({ title: signInError.message, variant: "destructive" });
       } else {
+        // Check if this is the admin's first login
+        if (form.email === 'admin@moftabo.com') {
+          const { error: roleError } = await supabase
+            .from('user_roles')
+            .upsert({ 
+              user_id: data.session.user.id,
+              role: 'admin'
+            });
+
+          if (roleError) {
+            console.error('Error setting admin role:', roleError);
+          }
+        }
+
         toast({ title: "Welcome back!" });
-        // Redirect based on user type
-        if (userType === "admin") {
+        if (userType === "admin" && form.email === 'admin@moftabo.com') {
           navigate("/admin");
         } else {
           navigate("/profile");

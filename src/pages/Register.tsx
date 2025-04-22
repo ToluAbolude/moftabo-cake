@@ -8,8 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Instagram } from "lucide-react";
-
-const supabase = (window as any).supabase;
+import { supabase } from "@/integrations/supabase/client";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -40,15 +39,37 @@ const Register = () => {
       toast({ title: "Passwords do not match.", variant: "destructive" });
       return;
     }
+
+    // Don't allow registration with admin email
+    if (form.email === 'admin@moftabo.com') {
+      toast({ title: "This email is reserved.", variant: "destructive" });
+      return;
+    }
+
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error: signUpError, data } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
       });
-      if (error) {
-        toast({ title: error.message, variant: "destructive" });
+      
+      if (signUpError) {
+        toast({ title: signUpError.message, variant: "destructive" });
       } else {
+        if (data.user) {
+          // Set default user role
+          const { error: roleError } = await supabase
+            .from('user_roles')
+            .insert({ 
+              user_id: data.user.id,
+              role: 'user'
+            });
+
+          if (roleError) {
+            console.error('Error setting user role:', roleError);
+          }
+        }
+        
         toast({ title: "Registration successful! Please check your email for confirmation." });
         navigate("/profile");
       }
