@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/componen
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { Separator } from "@/components/ui/separator";
-import { Facebook, Instagram } from "lucide-react";
+import { Facebook } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const Register = () => {
@@ -56,19 +56,8 @@ const Register = () => {
       if (signUpError) {
         toast({ title: signUpError.message, variant: "destructive" });
       } else {
-        if (data.user) {
-          // Set default user role
-          const { error: roleError } = await supabase
-            .from('user_roles')
-            .insert({ 
-              user_id: data.user.id,
-              role: 'user'
-            });
-
-          if (roleError) {
-            console.error('Error setting user role:', roleError);
-          }
-        }
+        // We'll let the database trigger handle the user role assignment
+        // No need to manually set the role for regular users
         
         toast({ title: "Registration successful! Please check your email for confirmation." });
         navigate("/profile");
@@ -80,7 +69,7 @@ const Register = () => {
     }
   };
 
-  const handleSocialSignIn = async (provider: 'facebook' | 'google' | 'instagram') => {
+  const handleSocialSignIn = async (provider: 'facebook' | 'google') => {
     setLoading(true);
     try {
       let { error } = await supabase.auth.signInWithOAuth({
@@ -175,16 +164,6 @@ const Register = () => {
                 <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
               </svg>
               Google
-            </Button>
-            <Button 
-              type="button" 
-              variant="outline" 
-              className="flex-1"
-              onClick={() => handleSocialSignIn('instagram')}
-              disabled={loading}
-            >
-              <Instagram className="h-5 w-5 mr-2 text-pink-600" />
-              Instagram
             </Button>
           </div>
         </CardContent>

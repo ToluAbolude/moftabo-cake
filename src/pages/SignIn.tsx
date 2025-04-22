@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Separator } from "@/components/ui/separator";
-import { Facebook, Instagram } from "lucide-react";
+import { Facebook } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 const SignIn = () => {
@@ -44,17 +44,17 @@ const SignIn = () => {
       if (signInError) {
         toast({ title: signInError.message, variant: "destructive" });
       } else {
-        // Check if this is the admin's first login
+        const userId = data.session.user.id;
+        
+        // If it's the admin email, ensure they have the admin role
         if (form.email === 'admin@moftabo.com') {
-          const { error: roleError } = await supabase
-            .from('user_roles')
-            .upsert({ 
-              user_id: data.session.user.id,
-              role: 'admin'
-            });
-
-          if (roleError) {
-            console.error('Error setting admin role:', roleError);
+          // Use RPC to avoid type issues
+          const { error } = await supabase.rpc('assign_admin_role_if_needed', {
+            user_id: userId
+          });
+          
+          if (error) {
+            console.error('Error ensuring admin role:', error);
           }
         }
 
@@ -72,7 +72,7 @@ const SignIn = () => {
     }
   };
 
-  const handleSocialSignIn = async (provider: 'facebook' | 'google' | 'instagram') => {
+  const handleSocialSignIn = async (provider: 'facebook' | 'google') => {
     setLoading(true);
     try {
       let { error } = await supabase.auth.signInWithOAuth({
@@ -176,16 +176,6 @@ const SignIn = () => {
                 <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
               </svg>
               Google
-            </Button>
-            <Button 
-              type="button" 
-              variant="outline" 
-              className="flex-1"
-              onClick={() => handleSocialSignIn('instagram')}
-              disabled={loading}
-            >
-              <Instagram className="h-5 w-5 mr-2 text-pink-600" />
-              Instagram
             </Button>
           </div>
         </CardContent>
