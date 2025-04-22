@@ -2,6 +2,8 @@
 import { ShoppingCart, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/contexts/CartContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import {
   Sheet,
   SheetContent,
@@ -11,9 +13,12 @@ import {
 } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
   const { state, dispatch } = useCart();
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleUpdateQuantity = (id: string, quantity: number) => {
     if (quantity < 1) {
@@ -25,6 +30,51 @@ export const Cart = () => {
 
   const handleRemoveItem = (id: string) => {
     dispatch({ type: "REMOVE_ITEM", payload: id });
+  };
+
+  const handleCheckout = async () => {
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        toast({
+          title: "Please sign in to checkout",
+          description: "You need to be logged in to place an order.",
+          variant: "destructive",
+        });
+        navigate("/signin");
+        return;
+      }
+
+      const { data, error } = await supabase.functions.invoke('create-checkout', {
+        body: {
+          items: state.items,
+          userId: user.id,
+        },
+      });
+
+      if (error) {
+        toast({
+          title: "Checkout Error",
+          description: "There was a problem initiating checkout.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      toast({
+        title: "Checkout Error",
+        description: "There was a problem initiating checkout.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -104,7 +154,10 @@ export const Cart = () => {
               <span>Total:</span>
               <span>£{state.total.toFixed(2)}</span>
             </div>
-            <Button className="w-full bg-cake-purple hover:bg-cake-dark-purple">
+            <Button 
+              className="w-full bg-cake-purple hover:bg-cake-dark-purple"
+              onClick={handleCheckout}
+            >
               Checkout
             </Button>
           </div>
