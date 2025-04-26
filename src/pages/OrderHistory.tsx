@@ -35,6 +35,18 @@ interface DatabaseOrder {
   items: Json;
 }
 
+// Type guard to check if an item is a valid OrderItem
+function isValidOrderItem(item: any): item is OrderItem {
+  return (
+    typeof item === 'object' &&
+    item !== null &&
+    typeof item.id === 'string' &&
+    typeof item.name === 'string' &&
+    typeof item.price === 'number' &&
+    typeof item.quantity === 'number'
+  );
+}
+
 const OrderHistory = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -66,14 +78,31 @@ const OrderHistory = () => {
         
         // Convert database orders to application orders with proper typing
         if (data) {
-          const typedOrders: Order[] = (data as DatabaseOrder[]).map(dbOrder => ({
-            id: dbOrder.id,
-            created_at: dbOrder.created_at,
-            status: dbOrder.status || 'Processing',
-            total_amount: dbOrder.total_amount,
-            // Cast items from Json to OrderItem[] with type checking
-            items: Array.isArray(dbOrder.items) ? dbOrder.items as OrderItem[] : []
-          }));
+          const typedOrders: Order[] = (data as DatabaseOrder[]).map(dbOrder => {
+            // Transform items with proper type checking
+            let orderItems: OrderItem[] = [];
+            
+            if (Array.isArray(dbOrder.items)) {
+              // Filter only valid items that match OrderItem structure
+              orderItems = (dbOrder.items as any[])
+                .filter(isValidOrderItem)
+                .map(item => ({
+                  id: item.id,
+                  name: item.name,
+                  price: item.price,
+                  quantity: item.quantity,
+                  imageUrl: item.imageUrl
+                }));
+            }
+            
+            return {
+              id: dbOrder.id,
+              created_at: dbOrder.created_at,
+              status: dbOrder.status || 'Processing',
+              total_amount: dbOrder.total_amount,
+              items: orderItems
+            };
+          });
           
           setOrders(typedOrders);
         } else {
