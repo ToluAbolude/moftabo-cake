@@ -5,6 +5,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, Heart, Star, Minus, Plus, Calendar, Clock } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 // Sample cake data
 const allCakes = [
@@ -39,6 +41,8 @@ const allCakes = [
 const CakeDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { dispatch } = useCart();
+  const { toast } = useToast();
   
   const cake = allCakes.find(cake => cake.id === id);
   
@@ -76,15 +80,22 @@ const CakeDetail = () => {
   };
   
   const handleAddToCart = () => {
-    // In a real app, this would add the cake to cart with selected options
-    console.log('Added to cart:', {
-      cake,
-      quantity,
-      size: selectedSize,
-      flavor: selectedFlavor
+    // Add the cake to cart with selected options
+    dispatch({
+      type: "ADD_ITEM",
+      payload: {
+        id: cake.id,
+        name: `${cake.name} (${selectedSize}, ${selectedFlavor})`,
+        price: cake.price,
+        quantity: quantity,
+        imageUrl: cake.imageUrl
+      }
     });
-    // For now, just navigate to catalog
-    navigate('/cart');
+
+    toast({
+      title: "Added to cart",
+      description: `${quantity} ${cake.name} added to your cart`,
+    });
   };
   
   return (

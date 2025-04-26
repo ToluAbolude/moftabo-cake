@@ -1,8 +1,5 @@
 
-// Instead of trying to import local image files that don't exist in the expected location,
-// we'll use the images that you've uploaded to the project.
-// The system automatically makes uploaded images available as URLs
-
+// Import local images to use throughout the application
 export const cakeImages = {
   cake1: "/user_uploads/cake1.jpg",
   cake2: "/user_uploads/cake2.jpg",

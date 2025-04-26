@@ -17,6 +17,9 @@ import AdminDashboard from "./pages/AdminDashboard";
 import CustomerDashboard from "./pages/CustomerDashboard";
 import AppLayout from "@/components/layout/AppLayout";
 import CustomOrder from "./pages/CustomOrder";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCanceled from "./pages/PaymentCanceled";
+import OrderHistory from "./pages/OrderHistory";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +34,8 @@ const App = () => (
             {/* Pages WITHOUT navbar */}
             <Route path="/register" element={<Register />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-canceled" element={<PaymentCanceled />} />
 
             {/* Pages WITH navbar */}
             <Route element={<AppLayout />}>
@@ -42,6 +47,7 @@ const App = () => (
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/custom" element={<CustomOrder />} />
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/orders" element={<OrderHistory />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Route>

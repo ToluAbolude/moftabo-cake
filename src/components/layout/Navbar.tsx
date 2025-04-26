@@ -1,5 +1,7 @@
+
 import { Link } from "react-router-dom";
 import { Cart } from "@/components/cart/Cart";
+import { Package } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -15,6 +17,10 @@ const Navbar = () => {
             <Link to="/custom">Custom Order</Link>
           </div>
           <div className="flex items-center space-x-4">
+            <Link to="/orders" className="flex items-center">
+              <Package className="h-5 w-5 mr-1" />
+              <span className="hidden sm:inline">Orders</span>
+            </Link>
             <Cart />
             <Link to="/profile">Profile</Link>
           </div>
