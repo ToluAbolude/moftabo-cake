@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Package, Clock, ShoppingCart } from "lucide-react";
 import Footer from "@/components/layout/Footer";
+import { Json } from "@/integrations/supabase/types";
 
 // Define the order type
 interface OrderItem {
@@ -21,6 +22,17 @@ interface Order {
   status: string;
   total_amount: number;
   items: OrderItem[];
+}
+
+// Define the database order type that matches Supabase's return type
+interface DatabaseOrder {
+  id: string;
+  created_at: string;
+  status: string | null;
+  stripe_session_id: string | null;
+  total_amount: number;
+  user_id: string | null;
+  items: Json;
 }
 
 const OrderHistory = () => {
@@ -52,7 +64,21 @@ const OrderHistory = () => {
           throw error;
         }
         
-        setOrders(data || []);
+        // Convert database orders to application orders with proper typing
+        if (data) {
+          const typedOrders: Order[] = (data as DatabaseOrder[]).map(dbOrder => ({
+            id: dbOrder.id,
+            created_at: dbOrder.created_at,
+            status: dbOrder.status || 'Processing',
+            total_amount: dbOrder.total_amount,
+            // Cast items from Json to OrderItem[] with type checking
+            items: Array.isArray(dbOrder.items) ? dbOrder.items as OrderItem[] : []
+          }));
+          
+          setOrders(typedOrders);
+        } else {
+          setOrders([]);
+        }
       } catch (error) {
         console.error('Error fetching orders:', error);
       } finally {
