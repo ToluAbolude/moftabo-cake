@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import cakeImages from "@/assets/images/gallery";
 
+// Convert object of images into an array for easier mapping
 const galleryImagesArray = Object.values(cakeImages);
 
 const Gallery = () => {

@@ -1,22 +1,40 @@
 
 // Import local images to use throughout the application
+import cake1 from "./cake1.png";
+import cake2 from "./cake2.png";
+import cake3 from "./cake3.png";
+import cake4 from "./cake4.png";
+import cake5 from "./cake5.png";
+import cake6 from "./cake6.png";
+import cake7 from "./cake7.png";
+import cake8 from "./cake8.png";
+import cake9 from "./cake9.png";
+import cake10 from "./cake10.png";
+import cake11 from "./cake11.png";
+import cake12 from "./cake12.png";
+import cake13 from "./cake13.png";
+import cake14 from "./cake14.png";
+import cake15 from "./cake15.png";
+import cake16 from "./cake16.png";
+
+// Export all cake images with their proper import references
 export const cakeImages = {
-  cake1: "cake1.png",
-  cake2: "cake2.png",
-  cake3: "cake3.png",
-  cake4: "cake4.png",
-  cake5: "cake5.png",
-  cake6: "cake6.png",
-  cake7: "cake7.png",
-  cake8: "cake8.png",
-  cake9: "cake9.png",
-  cake10: "cake10.png",
-  cake11: "cake11.png",
-  cake12: "cake12.png",
-  cake13: "cake13.png",
-  cake14: "cake14.png",
-  cake15: "cake15.png",
-  cake16: "cake16.png",
+  cake1,
+  cake2,
+  cake3,
+  cake4,
+  cake5,
+  cake6,
+  cake7,
+  cake8,
+  cake9,
+  cake10,
+  cake11,
+  cake12,
+  cake13,
+  cake14,
+  cake15,
+  cake16,
 };
 
 export default cakeImages;
