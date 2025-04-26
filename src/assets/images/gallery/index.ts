@@ -1,38 +1,25 @@
 
-import cake1 from './cake1.jpg';
-import cake2 from './cake2.jpg';
-import cake3 from './cake3.jpg';
-import cake4 from './cake4.jpg';
-import cake5 from './cake5.jpg';
-import cake6 from './cake6.jpg';
-import cake7 from './cake7.jpg';
-import cake8 from './cake8.jpg';
-import cake9 from './cake9.jpg';
-import cake10 from './cake10.jpg';
-import cake11 from './cake11.jpg';
-import cake12 from './cake12.jpg';
-import cake13 from './cake13.jpg';
-import cake14 from './cake14.jpg';
-import cake15 from './cake15.jpg';
-import cake16 from './cake16.jpg';
+// Instead of trying to import local image files that don't exist in the expected location,
+// we'll use the images that you've uploaded to the project.
+// The system automatically makes uploaded images available as URLs
 
 export const cakeImages = {
-  cake1,
-  cake2,
-  cake3,
-  cake4,
-  cake5,
-  cake6,
-  cake7,
-  cake8,
-  cake9,
-  cake10,
-  cake11,
-  cake12,
-  cake13,
-  cake14,
-  cake15,
-  cake16,
+  cake1: "/user_uploads/cake1.jpg",
+  cake2: "/user_uploads/cake2.jpg",
+  cake3: "/user_uploads/cake3.jpg",
+  cake4: "/user_uploads/cake4.jpg",
+  cake5: "/user_uploads/cake5.jpg",
+  cake6: "/user_uploads/cake6.jpg",
+  cake7: "/user_uploads/cake7.jpg",
+  cake8: "/user_uploads/cake8.jpg",
+  cake9: "/user_uploads/cake9.jpg",
+  cake10: "/user_uploads/cake10.jpg",
+  cake11: "/user_uploads/cake11.jpg",
+  cake12: "/user_uploads/cake12.jpg",
+  cake13: "/user_uploads/cake13.jpg",
+  cake14: "/user_uploads/cake14.jpg",
+  cake15: "/user_uploads/cake15.jpg",
+  cake16: "/user_uploads/cake16.jpg",
 };
 
 export default cakeImages;
