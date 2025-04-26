@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Footer from "@/components/layout/Footer";
 import { cakeImages } from "@/assets/images/gallery";
@@ -6,6 +5,7 @@ import CatalogHeader from "@/components/cakes/CatalogHeader";
 import SearchBar from "@/components/cakes/SearchBar";
 import CatalogFilters from "@/components/cakes/CatalogFilters";
 import CakeGrid from "@/components/cakes/CakeGrid";
+import { useCakeCatalog } from "@/hooks/useCakeCatalog";
 
 // Sample cake data
 const allCakes = [
@@ -83,26 +83,19 @@ const CakeCatalog = () => {
   const [searchParams] = useSearchParams();
   const categoryParam = searchParams.get("category");
   
-  const [activeCategory, setActiveCategory] = useState(categoryParam || "All");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState("featured");
-  const [filterOpen, setFilterOpen] = useState(false);
-  
-  // Filter cakes based on search term and category
-  const filteredCakes = allCakes.filter(cake => {
-    const matchesSearch = cake.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          cake.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = activeCategory === "All" || 
-                           cake.category.toLowerCase() === activeCategory.toLowerCase();
-    return matchesSearch && matchesCategory;
-  });
-  
-  // Sort cakes based on selected option
-  const sortedCakes = [...filteredCakes].sort((a, b) => {
-    if (sortBy === "price-asc") return a.price - b.price;
-    if (sortBy === "price-desc") return b.price - a.price;
-    if (sortBy === "name") return a.name.localeCompare(b.name);
-    return 0; // Default (featured)
+  const {
+    filteredAndSortedCakes,
+    searchTerm,
+    setSearchTerm,
+    activeCategory,
+    setActiveCategory,
+    sortBy,
+    setSortBy,
+    filterOpen,
+    setFilterOpen
+  } = useCakeCatalog({
+    allCakes,
+    initialCategory: categoryParam || "All"
   });
   
   return (
@@ -124,7 +117,7 @@ const CakeCatalog = () => {
           />
         </div>
         
-        <CakeGrid cakes={sortedCakes} />
+        <CakeGrid cakes={filteredAndSortedCakes} />
       </main>
       
       <Footer />
