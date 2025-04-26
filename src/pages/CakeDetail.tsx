@@ -1,4 +1,3 @@
-
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
@@ -140,7 +139,7 @@ const CakeDetail = () => {
             </div>
             
             <p className="text-2xl font-semibold text-gray-900 mb-4">
-              ${cake.price.toFixed(2)}
+              £{cake.price.toFixed(2)}
             </p>
             
             <p className="text-gray-600 mb-6">
