@@ -1,16 +1,7 @@
-
 import { Link } from "react-router-dom";
 import { Cart } from "@/components/cart/Cart";
 import { Package, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   Sheet,
@@ -50,7 +41,7 @@ const Navbar = () => {
             to="/" 
             className="flex items-center space-x-2"
           >
-            <span className="font-bold text-xl text-cake-purple">Cake Shop</span>
+            <span className="font-bold text-xl text-cake-purple">Moftabo Cakes</span>
           </Link>
 
           {/* Desktop Navigation */}
