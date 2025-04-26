@@ -1,9 +1,11 @@
+
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Footer from "@/components/layout/Footer";
 import CakeCard from "@/components/cakes/CakeCard";
 import { Search, Filter, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cakeImages } from "@/assets/images/gallery";
 
 // Sample cake data
 const allCakes = [
