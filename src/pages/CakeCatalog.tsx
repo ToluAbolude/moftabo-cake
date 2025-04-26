@@ -7,15 +7,16 @@ import SearchBar from "@/components/cakes/SearchBar";
 import CatalogFilters from "@/components/cakes/CatalogFilters";
 import CakeGrid from "@/components/cakes/CakeGrid";
 import { useCakeCatalog } from "@/hooks/useCakeCatalog";
+import { getBasePriceForSize } from "@/utils/pricingUtils";
 
-// Sample cake data with updated currency
+// Sample cake data with updated prices using our pricing system
 const allCakes = [
   {
     id: "1",
     name: "Classic Chocolate",
     description: "Rich chocolate layers with smooth ganache frosting",
     imageUrl: cakeImages.cake31,
-    price: 45.99,
+    price: getBasePriceForSize('6-inch'),
     category: "Chocolate",
   },
   {
@@ -23,7 +24,7 @@ const allCakes = [
     name: "Strawberry Delight",
     description: "Vanilla sponge with fresh strawberries and cream",
     imageUrl: cakeImages.cake32,
-    price: 48.99,
+    price: getBasePriceForSize('6-inch'),
     category: "Fruit",
   },
   {
@@ -31,7 +32,7 @@ const allCakes = [
     name: "Wedding Elegance",
     description: "Three-tier white cake with floral decorations",
     imageUrl: cakeImages.cake33,
-    price: 199.99,
+    price: getBasePriceForSize('10-inch'),
     category: "Wedding",
   },
   {
@@ -39,7 +40,7 @@ const allCakes = [
     name: "Birthday Bash",
     description: "Colorful funfetti cake with sprinkles galore",
     imageUrl: cakeImages.cake34,
-    price: 39.99,
+    price: getBasePriceForSize('6-inch'),
     category: "Birthday",
   },
   {
@@ -47,7 +48,7 @@ const allCakes = [
     name: "Red Velvet Dream",
     description: "Moist red velvet with cream cheese frosting",
     imageUrl: cakeImages.cake35,
-    price: 42.99,
+    price: getBasePriceForSize('8-inch'),
     category: "Specialty",
   },
   {
@@ -55,7 +56,7 @@ const allCakes = [
     name: "Lemon Blueberry",
     description: "Tangy lemon cake with blueberry compote",
     imageUrl: cakeImages.cake36,
-    price: 47.99,
+    price: getBasePriceForSize('8-inch'),
     category: "Fruit",
   },
   {
@@ -63,7 +64,7 @@ const allCakes = [
     name: "Tiramisu Cake",
     description: "Coffee-soaked layers with mascarpone cream",
     imageUrl: cakeImages.cake37,
-    price: 50.99,
+    price: getBasePriceForSize('8-inch'),
     category: "Coffee",
   },
   {
@@ -71,7 +72,7 @@ const allCakes = [
     name: "Anniversary Special",
     description: "Elegant cake with gold accents and roses",
     imageUrl: cakeImages.cake38,
-    price: 149.99,
+    price: getBasePriceForSize('10-inch'),
     category: "Anniversary",
   }
 ];
