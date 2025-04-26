@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -5,7 +6,7 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { ImageUpload } from "./ImageUpload"
-import { calculateCakePrice } from "@/utils/pricingUtils"
+import { calculateCakePrice, CakeSize } from "@/utils/pricingUtils"
 import { useCart } from "@/contexts/CartContext"
 import { useToast } from "@/hooks/use-toast"
 import { v4 as uuidv4 } from "uuid"
