@@ -1,3 +1,4 @@
+
 import { useSearchParams } from "react-router-dom";
 import Footer from "@/components/layout/Footer";
 import { cakeImages } from "@/assets/images/gallery";
@@ -7,7 +8,7 @@ import CatalogFilters from "@/components/cakes/CatalogFilters";
 import CakeGrid from "@/components/cakes/CakeGrid";
 import { useCakeCatalog } from "@/hooks/useCakeCatalog";
 
-// Sample cake data
+// Sample cake data with updated currency
 const allCakes = [
   {
     id: "1",

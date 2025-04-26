@@ -78,7 +78,7 @@ const CakeCard = ({ cake }: CakeCardProps) => {
         </h3>
         <p className="text-gray-500 text-sm line-clamp-2 h-10 mb-3">{cake.description}</p>
         <div className="flex justify-between items-center">
-          <span className="font-semibold text-gray-900">${cake.price.toFixed(2)}</span>
+          <span className="font-semibold text-gray-900">£{cake.price.toFixed(2)}</span>
           
           <Button 
             onClick={handleAddToCart}
