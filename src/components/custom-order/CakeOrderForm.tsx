@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { ImageUpload } from "./ImageUpload";
-import { DatePickerWithRange } from "./DatePickerWithRange";
+import { DatePicker } from "./DatePicker";
 
 const orderFormSchema = z.object({
   cakeType: z.string().min(1, "Please select a cake type"),
@@ -16,10 +15,8 @@ const orderFormSchema = z.object({
   flavor: z.string().min(1, "Please select a cake flavor"),
   message: z.string().optional(),
   designImage: z.string().optional(),
-  deliveryDate: z.object({
-    from: z.date(),
-    to: z.date(),
-  }).optional(),
+  inspirationImage: z.string().optional(),
+  deliveryDate: z.date().optional(),
 });
 
 export const CakeOrderForm = () => {
@@ -129,7 +126,7 @@ export const CakeOrderForm = () => {
         </div>
 
         <ImageUpload />
-        <DatePickerWithRange />
+        <DatePicker />
 
         <div className="flex justify-between items-center pt-6">
           <div className="text-xl font-semibold">
