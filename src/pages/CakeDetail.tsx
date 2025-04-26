@@ -12,6 +12,7 @@ import CakeOptions from "@/components/cakes/detail/CakeOptions";
 import QuantitySelector from "@/components/cakes/detail/QuantitySelector";
 import DeliveryInfo from "@/components/cakes/detail/DeliveryInfo";
 import IngredientsList from "@/components/cakes/detail/IngredientsList";
+import { calculateCakePrice } from "@/utils/pricingUtils";
 
 const CakeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,6 +25,9 @@ const CakeDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState(cake?.sizes[1] || "");
   const [selectedFlavor, setSelectedFlavor] = useState(cake?.flavors[0] || "");
+  const [currentPrice, setCurrentPrice] = useState(
+    calculateCakePrice({ size: selectedSize as '6-inch' | '8-inch' | '10-inch' })
+  );
   
   if (!cake) {
     return (
@@ -51,7 +55,7 @@ const CakeDetail = () => {
       payload: {
         id: cake.id,
         name: `${cake.name} (${selectedSize}, ${selectedFlavor})`,
-        price: cake.price,
+        price: currentPrice,
         quantity: quantity,
         imageUrl: cake.imageUrl
       }
@@ -81,7 +85,7 @@ const CakeDetail = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{cake.name}</h1>
             <CakeRating rating={cake.rating} reviews={cake.reviews} />
             <p className="text-2xl font-semibold text-gray-900 mb-4">
-              £{cake.price.toFixed(2)}
+              £{currentPrice.toFixed(2)}
             </p>
             <p className="text-gray-600 mb-6">{cake.description}</p>
             
@@ -92,6 +96,7 @@ const CakeDetail = () => {
               selectedFlavor={selectedFlavor}
               onSizeSelect={setSelectedSize}
               onFlavorSelect={setSelectedFlavor}
+              onPriceUpdate={setCurrentPrice}
             />
             
             <QuantitySelector
