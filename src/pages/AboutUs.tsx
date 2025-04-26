@@ -1,6 +1,6 @@
 
 import Footer from "@/components/layout/Footer";
-import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import ScrollReveal from "@/components/animations/ScrollReveal";
 import { CakeSlice, Heart } from "lucide-react";
 
 const AboutUs = () => {
