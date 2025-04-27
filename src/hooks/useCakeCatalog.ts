@@ -8,6 +8,8 @@ interface Cake {
   imageUrl: string;
   price: number;
   category: string;
+  sizes?: string[];
+  flavors?: string[];
 }
 
 interface UseCakeCatalogProps {
@@ -62,4 +64,3 @@ export const useCakeCatalog = ({ allCakes, initialCategory = "All" }: UseCakeCat
     setFilterOpen
   };
 };
-

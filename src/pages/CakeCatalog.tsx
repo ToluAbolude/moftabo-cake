@@ -18,6 +18,8 @@ const allCakes = [
     imageUrl: cakeImages.cake31,
     price: getBasePriceForSize('6-inch'),
     category: "Chocolate",
+    sizes: ["6-inch", "8-inch", "10-inch"],
+    flavors: ["Chocolate", "Dark Chocolate"]
   },
   {
     id: "2",
@@ -26,6 +28,8 @@ const allCakes = [
     imageUrl: cakeImages.cake32,
     price: getBasePriceForSize('6-inch'),
     category: "Fruit",
+    sizes: ["6-inch", "8-inch"],
+    flavors: ["Vanilla", "Strawberry"]
   },
   {
     id: "3",
@@ -34,6 +38,8 @@ const allCakes = [
     imageUrl: cakeImages.cake33,
     price: getBasePriceForSize('10-inch'),
     category: "Wedding",
+    sizes: ["8-inch", "10-inch", "12-inch"],
+    flavors: ["Vanilla", "Chocolate", "Red Velvet"]
   },
   {
     id: "4",
@@ -42,6 +48,8 @@ const allCakes = [
     imageUrl: cakeImages.cake34,
     price: getBasePriceForSize('6-inch'),
     category: "Birthday",
+    sizes: ["6-inch", "8-inch"],
+    flavors: ["Vanilla", "Funfetti"]
   },
   {
     id: "5",
@@ -50,6 +58,8 @@ const allCakes = [
     imageUrl: cakeImages.cake35,
     price: getBasePriceForSize('8-inch'),
     category: "Specialty",
+    sizes: ["6-inch", "8-inch"],
+    flavors: ["Red Velvet"]
   },
   {
     id: "6",
@@ -58,6 +68,8 @@ const allCakes = [
     imageUrl: cakeImages.cake36,
     price: getBasePriceForSize('8-inch'),
     category: "Fruit",
+    sizes: ["6-inch", "8-inch"],
+    flavors: ["Lemon", "Blueberry"]
   },
   {
     id: "7",
@@ -66,6 +78,8 @@ const allCakes = [
     imageUrl: cakeImages.cake37,
     price: getBasePriceForSize('8-inch'),
     category: "Coffee",
+    sizes: ["6-inch", "8-inch"],
+    flavors: ["Coffee", "Mascarpone"]
   },
   {
     id: "8",
@@ -74,6 +88,8 @@ const allCakes = [
     imageUrl: cakeImages.cake38,
     price: getBasePriceForSize('10-inch'),
     category: "Anniversary",
+    sizes: ["8-inch", "10-inch"],
+    flavors: ["Vanilla", "Champagne"]
   }
 ];
 

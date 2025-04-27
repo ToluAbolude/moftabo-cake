@@ -14,8 +14,8 @@ interface Cake {
   imageUrl: string;
   price: number;
   category: string;
-  sizes: string[];
-  flavors: string[];
+  sizes?: string[];
+  flavors?: string[];
 }
 
 interface CakeCardProps {
@@ -82,12 +82,16 @@ const CakeCard = ({ cake }: CakeCardProps) => {
         <p className="text-gray-500 text-sm line-clamp-2 mb-3">{cake.description}</p>
         
         <div className="flex flex-wrap gap-1 mb-3">
-          <Badge variant="secondary" className="text-xs">
-            {cake.sizes.join(", ")} sizes
-          </Badge>
-          <Badge variant="outline" className="text-xs">
-            {cake.flavors.join(", ")} flavors
-          </Badge>
+          {cake.sizes && cake.sizes.length > 0 && (
+            <Badge variant="secondary" className="text-xs">
+              {cake.sizes.join(", ")} sizes
+            </Badge>
+          )}
+          {cake.flavors && cake.flavors.length > 0 && (
+            <Badge variant="outline" className="text-xs">
+              {cake.flavors.join(", ")} flavors
+            </Badge>
+          )}
         </div>
 
         <div className="flex justify-between items-center">
