@@ -10,8 +10,8 @@ export interface Cake {
   category: string;
   rating: number;
   reviews: number;
-  sizes: CakeSize[];
-  flavors: string[];
+  sizes?: CakeSize[];
+  flavors?: string[];
   ingredients: string[];
 }
 

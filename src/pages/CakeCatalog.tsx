@@ -1,4 +1,3 @@
-
 import { useSearchParams } from "react-router-dom";
 import Footer from "@/components/layout/Footer";
 import { cakeImages } from "@/assets/images/gallery";
@@ -9,8 +8,18 @@ import CakeGrid from "@/components/cakes/CakeGrid";
 import { useCakeCatalog } from "@/hooks/useCakeCatalog";
 import { getBasePriceForSize } from "@/utils/pricingUtils";
 
-// Sample cake data with updated prices using our pricing system
-const allCakes = [
+interface Cake {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  price: number;
+  category: string;
+  sizes?: string[];
+  flavors?: string[];
+}
+
+const allCakes: Cake[] = [
   {
     id: "1",
     name: "Classic Chocolate",
