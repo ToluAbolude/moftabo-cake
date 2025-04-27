@@ -23,9 +23,9 @@ const allCakes: Cake[] = [
   {
     id: "1",
     name: "Classic Chocolate",
-    description: "Rich chocolate layers with smooth ganache frosting",
+    description: "Rich chocolate layers with smooth ganache frosting. Perfect for birthdays! Most popular as an 8-inch cake with dark chocolate flavor.",
     imageUrl: cakeImages.cake31,
-    price: getBasePriceForSize('6-inch'),
+    price: getBasePriceForSize('8-inch'),
     category: "Chocolate",
     sizes: ["6-inch", "8-inch", "10-inch"],
     flavors: ["Chocolate", "Dark Chocolate"]
@@ -33,7 +33,7 @@ const allCakes: Cake[] = [
   {
     id: "2",
     name: "Strawberry Delight",
-    description: "Vanilla sponge with fresh strawberries and cream",
+    description: "Vanilla sponge with fresh strawberries and cream. Ideal for summer parties! Bestseller as a 6-inch cake with vanilla-strawberry combination.",
     imageUrl: cakeImages.cake32,
     price: getBasePriceForSize('6-inch'),
     category: "Fruit",
@@ -43,7 +43,7 @@ const allCakes: Cake[] = [
   {
     id: "3",
     name: "Wedding Elegance",
-    description: "Three-tier white cake with floral decorations",
+    description: "Three-tier white cake with floral decorations. Most elegant in 10-inch size with classic vanilla flavor. Perfect for intimate weddings of 50-75 guests.",
     imageUrl: cakeImages.cake33,
     price: getBasePriceForSize('10-inch'),
     category: "Wedding",
@@ -53,9 +53,9 @@ const allCakes: Cake[] = [
   {
     id: "4",
     name: "Birthday Bash",
-    description: "Colorful funfetti cake with sprinkles galore",
+    description: "Colorful funfetti cake with sprinkles galore. Kids' favorite in 8-inch size with funfetti flavor. Serves 10-12 party guests perfectly!",
     imageUrl: cakeImages.cake34,
-    price: getBasePriceForSize('6-inch'),
+    price: getBasePriceForSize('8-inch'),
     category: "Birthday",
     sizes: ["6-inch", "8-inch"],
     flavors: ["Vanilla", "Funfetti"]
@@ -63,9 +63,9 @@ const allCakes: Cake[] = [
   {
     id: "5",
     name: "Red Velvet Dream",
-    description: "Moist red velvet with cream cheese frosting",
+    description: "Moist red velvet with cream cheese frosting. Most popular as a 6-inch cake - perfect for intimate celebrations or romantic dinners!",
     imageUrl: cakeImages.cake35,
-    price: getBasePriceForSize('8-inch'),
+    price: getBasePriceForSize('6-inch'),
     category: "Specialty",
     sizes: ["6-inch", "8-inch"],
     flavors: ["Red Velvet"]
@@ -73,7 +73,7 @@ const allCakes: Cake[] = [
   {
     id: "6",
     name: "Lemon Blueberry",
-    description: "Tangy lemon cake with blueberry compote",
+    description: "Tangy lemon cake with blueberry compote. Bestseller in 8-inch size, serves 8-10 people. Perfect for spring gatherings and afternoon teas!",
     imageUrl: cakeImages.cake36,
     price: getBasePriceForSize('8-inch'),
     category: "Fruit",
@@ -83,9 +83,9 @@ const allCakes: Cake[] = [
   {
     id: "7",
     name: "Tiramisu Cake",
-    description: "Coffee-soaked layers with mascarpone cream",
+    description: "Coffee-soaked layers with mascarpone cream. Most ordered as a 6-inch cake for coffee lovers. Ideal for after-dinner desserts!",
     imageUrl: cakeImages.cake37,
-    price: getBasePriceForSize('8-inch'),
+    price: getBasePriceForSize('6-inch'),
     category: "Coffee",
     sizes: ["6-inch", "8-inch"],
     flavors: ["Coffee", "Mascarpone"]
@@ -93,7 +93,7 @@ const allCakes: Cake[] = [
   {
     id: "8",
     name: "Anniversary Special",
-    description: "Elegant cake with gold accents and roses",
+    description: "Elegant cake with gold accents and roses. Most romantic in 10-inch size with champagne flavor. Perfect for celebrating milestone anniversaries!",
     imageUrl: cakeImages.cake38,
     price: getBasePriceForSize('10-inch'),
     category: "Anniversary",
