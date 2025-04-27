@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 import { useToast } from "@/hooks/use-toast";
+import { Badge } from "@/components/ui/badge";
 
 interface Cake {
   id: string;
@@ -13,6 +14,8 @@ interface Cake {
   imageUrl: string;
   price: number;
   category: string;
+  sizes: string[];
+  flavors: string[];
 }
 
 interface CakeCardProps {
@@ -76,7 +79,17 @@ const CakeCard = ({ cake }: CakeCardProps) => {
         >
           {cake.name}
         </h3>
-        <p className="text-gray-500 text-sm line-clamp-2 h-10 mb-3">{cake.description}</p>
+        <p className="text-gray-500 text-sm line-clamp-2 mb-3">{cake.description}</p>
+        
+        <div className="flex flex-wrap gap-1 mb-3">
+          <Badge variant="secondary" className="text-xs">
+            {cake.sizes.join(", ")} sizes
+          </Badge>
+          <Badge variant="outline" className="text-xs">
+            {cake.flavors.join(", ")} flavors
+          </Badge>
+        </div>
+
         <div className="flex justify-between items-center">
           <span className="font-semibold text-gray-900">£{cake.price.toFixed(2)}</span>
           
