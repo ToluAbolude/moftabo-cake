@@ -9,6 +9,8 @@ interface Cake {
   imageUrl: string;
   price: number;
   category: string;
+  sizes: string[];
+  flavors: string[];
 }
 
 interface CakeGridProps {

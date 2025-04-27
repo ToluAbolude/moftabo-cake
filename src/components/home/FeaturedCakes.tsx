@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import CakeCard from "../cakes/CakeCard";
@@ -14,6 +13,8 @@ const featuredCakes = [
     imageUrl: cakeImages.cake3,
     price: 45.99,
     category: "Chocolate",
+    sizes: ["6-inch", "8-inch", "10-inch"],
+    flavors: ["Chocolate", "Dark Chocolate"]
   },
   {
     id: "2",
@@ -22,6 +23,8 @@ const featuredCakes = [
     imageUrl: cakeImages.cake4,
     price: 48.99,
     category: "Fruit",
+    sizes: ["6-inch", "8-inch"],
+    flavors: ["Vanilla", "Strawberry"]
   },
   {
     id: "3",
@@ -30,6 +33,8 @@ const featuredCakes = [
     imageUrl: cakeImages.cake5,
     price: 199.99,
     category: "Wedding",
+    sizes: ["8-inch", "10-inch", "12-inch"],
+    flavors: ["Vanilla", "Chocolate", "Red Velvet"]
   },
   {
     id: "4",
@@ -38,6 +43,8 @@ const featuredCakes = [
     imageUrl: cakeImages.cake6,
     price: 39.99,
     category: "Birthday",
+    sizes: ["6-inch", "8-inch"],
+    flavors: ["Vanilla", "Funfetti"]
   }
 ];
 
