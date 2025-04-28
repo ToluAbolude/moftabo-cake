@@ -1,5 +1,4 @@
-
-import { CakeSlice, Mail, Phone, MapPin, Instagram, Facebook, Twitter } from "lucide-react";
+import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -9,8 +8,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8">
           <div>
             <div className="flex items-center mb-4">
-              <CakeSlice className="h-8 w-8 text-cake-purple" strokeWidth={2} />
-              <span className="ml-2 text-xl font-bold text-cake-dark-purple">Moftabo</span>
+              <img 
+                src="/lovable-uploads/b2097c3d-9103-4081-b628-4f03291bd9db.png" 
+                alt="Moftabo Cakes Logo" 
+                className="h-10 w-10 mr-2"
+              />
+              <span className="text-xl font-bold text-cake-dark-purple">Moftabo</span>
             </div>
             <p className="text-gray-600 mb-6">
               Delicious custom cakes made with love for over 7 years. Every celebration deserves a Moftabo cake.

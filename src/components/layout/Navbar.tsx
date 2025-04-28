@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Cart } from "@/components/cart/Cart";
 import { Package, Menu } from "lucide-react";
@@ -41,6 +42,11 @@ const Navbar = () => {
             to="/" 
             className="flex items-center space-x-2"
           >
+            <img 
+              src="/lovable-uploads/b2097c3d-9103-4081-b628-4f03291bd9db.png" 
+              alt="Moftabo Cakes Logo" 
+              className="h-10 w-10"
+            />
             <span className="font-bold text-xl text-cake-purple">Moftabo Cakes</span>
           </Link>
 
@@ -62,6 +68,14 @@ const Navbar = () => {
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="left" className="w-[240px] sm:w-[280px]">
+                  <div className="flex items-center mb-8">
+                    <img 
+                      src="/lovable-uploads/b2097c3d-9103-4081-b628-4f03291bd9db.png" 
+                      alt="Moftabo Cakes Logo" 
+                      className="h-8 w-8 mr-2"
+                    />
+                    <span className="font-bold text-lg text-cake-purple">Moftabo Cakes</span>
+                  </div>
                   <div className="flex flex-col space-y-4 mt-8">
                     <NavLinks />
                   </div>
