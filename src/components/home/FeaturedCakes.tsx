@@ -1,17 +1,19 @@
+
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import CakeCard from "../cakes/CakeCard";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import cakeImages from "@/assets/images/gallery";
+import { calculateCakePrice } from "@/utils/pricingUtils";
 
-// Updated cake data with new images
+// Updated cake data with specific descriptions and calculated prices
 const featuredCakes = [
   {
     id: "1",
     name: "Classic Chocolate",
-    description: "Rich chocolate layers with smooth ganache frosting",
+    description: "8-inch chocolate cake with dark chocolate frosting. Perfect for birthdays or celebrations. £120.00",
     imageUrl: cakeImages.cake3,
-    price: 45.99,
+    price: calculateCakePrice({ size: "8-inch", isCustomDesign: false, isRushOrder: false }),
     category: "Chocolate",
     sizes: ["6-inch", "8-inch", "10-inch"],
     flavors: ["Chocolate", "Dark Chocolate"]
@@ -19,9 +21,9 @@ const featuredCakes = [
   {
     id: "2",
     name: "Strawberry Delight",
-    description: "Vanilla sponge with fresh strawberries and cream",
+    description: "6-inch vanilla sponge with fresh strawberry cream. Ideal for summer gatherings. £75.00",
     imageUrl: cakeImages.cake4,
-    price: 48.99,
+    price: calculateCakePrice({ size: "6-inch", isCustomDesign: false, isRushOrder: false }),
     category: "Fruit",
     sizes: ["6-inch", "8-inch"],
     flavors: ["Vanilla", "Strawberry"]
@@ -29,9 +31,9 @@ const featuredCakes = [
   {
     id: "3",
     name: "Wedding Elegance",
-    description: "Three-tier white cake with floral decorations",
+    description: "10-inch three-tier vanilla cake with elegant decorations. Perfect for intimate weddings. £180.00",
     imageUrl: cakeImages.cake5,
-    price: 199.99,
+    price: calculateCakePrice({ size: "10-inch", isCustomDesign: false, isRushOrder: false }),
     category: "Wedding",
     sizes: ["8-inch", "10-inch", "12-inch"],
     flavors: ["Vanilla", "Chocolate", "Red Velvet"]
@@ -39,9 +41,9 @@ const featuredCakes = [
   {
     id: "4",
     name: "Birthday Bash",
-    description: "Colorful funfetti cake with sprinkles galore",
+    description: "8-inch funfetti cake with colorful decorations. Perfect for children's parties. Serves 10-12. £120.00",
     imageUrl: cakeImages.cake6,
-    price: 39.99,
+    price: calculateCakePrice({ size: "8-inch", isCustomDesign: false, isRushOrder: false }),
     category: "Birthday",
     sizes: ["6-inch", "8-inch"],
     flavors: ["Vanilla", "Funfetti"]
