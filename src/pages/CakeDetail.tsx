@@ -12,7 +12,7 @@ import CakeOptions from "@/components/cakes/detail/CakeOptions";
 import QuantitySelector from "@/components/cakes/detail/QuantitySelector";
 import DeliveryInfo from "@/components/cakes/detail/DeliveryInfo";
 import IngredientsList from "@/components/cakes/detail/IngredientsList";
-import { calculateCakePrice } from "@/utils/pricingUtils";
+import { calculateCakePrice, CakeSize } from "@/utils/pricingUtils";
 
 const CakeDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,11 +22,20 @@ const CakeDetail = () => {
   
   const cake = allCakes.find(cake => cake.id === id);
   
+  // Ensure we have a valid default size
+  const getValidSize = (sizes: CakeSize[] | undefined): CakeSize => {
+    if (!sizes || sizes.length === 0) return '6-inch';
+    // Use the second size if available, otherwise first
+    return sizes[1] || sizes[0] || '6-inch';
+  };
+
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState(cake?.sizes[1] || "");
-  const [selectedFlavor, setSelectedFlavor] = useState(cake?.flavors[0] || "");
+  const [selectedSize, setSelectedSize] = useState<CakeSize>(
+    cake ? getValidSize(cake.sizes) : '6-inch'
+  );
+  const [selectedFlavor, setSelectedFlavor] = useState(cake?.flavors?.[0] || "");
   const [currentPrice, setCurrentPrice] = useState(
-    calculateCakePrice({ size: selectedSize as '6-inch' | '8-inch' | '10-inch' })
+    calculateCakePrice({ size: selectedSize })
   );
   
   if (!cake) {
@@ -90,11 +99,11 @@ const CakeDetail = () => {
             <p className="text-gray-600 mb-6">{cake.description}</p>
             
             <CakeOptions
-              sizes={cake.sizes}
-              flavors={cake.flavors}
+              sizes={cake.sizes || []}
+              flavors={cake.flavors || []}
               selectedSize={selectedSize}
               selectedFlavor={selectedFlavor}
-              onSizeSelect={setSelectedSize}
+              onSizeSelect={(size) => setSelectedSize(size as CakeSize)}
               onFlavorSelect={setSelectedFlavor}
               onPriceUpdate={setCurrentPrice}
             />

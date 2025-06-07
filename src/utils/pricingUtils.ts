@@ -1,4 +1,3 @@
-
 export type CakeSize = '4-inch' | '5-inch' | '6-inch' | '7-inch' | '8-inch' | '9-inch' | '10-inch' | '11-inch' | '12-inch' | '14-inch';
 export type CakeType = 'birthday' | 'anniversary' | 'wedding' | 'baby_shower' | 'custom';
 
@@ -42,7 +41,19 @@ const MINIMUM_DELIVERY_DAYS: Record<CakeType, number> = {
 };
 
 export const calculateCakePrice = ({ size, isCustomDesign = false, isRushOrder = false, isMultipleFlavors = false }: PricingOptions): number => {
-  let finalPrice = BASE_PRICES[size];
+  // Get base price with fallback to 6-inch if size is not found
+  const basePrice = BASE_PRICES[size];
+  if (basePrice === undefined) {
+    console.warn(`Invalid cake size: ${size}. Falling back to 6-inch price.`);
+    return calculateCakePrice({ 
+      size: '6-inch', 
+      isCustomDesign, 
+      isRushOrder, 
+      isMultipleFlavors 
+    });
+  }
+
+  let finalPrice = basePrice;
 
   if (isCustomDesign) {
     finalPrice *= CUSTOM_DESIGN_MULTIPLIER;
@@ -59,7 +70,14 @@ export const calculateCakePrice = ({ size, isCustomDesign = false, isRushOrder =
   return Number(finalPrice.toFixed(2));
 };
 
-export const getBasePriceForSize = (size: CakeSize): number => BASE_PRICES[size];
+export const getBasePriceForSize = (size: CakeSize): number => {
+  const basePrice = BASE_PRICES[size];
+  if (basePrice === undefined) {
+    console.warn(`Invalid cake size: ${size}. Falling back to 6-inch price.`);
+    return BASE_PRICES['6-inch'];
+  }
+  return basePrice;
+};
 
 export const isRushOrder = ({ cakeType, deliveryDate, currentDate = new Date() }: RushOrderOptions): boolean => {
   const daysDifference = Math.ceil(
