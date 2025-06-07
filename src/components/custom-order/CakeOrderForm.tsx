@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -6,7 +5,7 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { ImageUpload } from "./ImageUpload"
-import { calculateCakePrice, CakeSize } from "@/utils/pricingUtils"
+import { calculateCakePrice, CakeSize, isRushOrder } from "@/utils/pricingUtils"
 import { useCart } from "@/contexts/CartContext"
 import { useToast } from "@/hooks/use-toast"
 import { v4 as uuidv4 } from "uuid"
@@ -28,7 +27,7 @@ const orderFormSchema = z.object({
 
 export const CakeOrderForm = () => {
   const [totalPrice, setTotalPrice] = useState(0)
-  const [isRushOrder, setIsRushOrder] = useState(false)
+  const [isRushOrderState, setIsRushOrderState] = useState(false)
   const [uploadedImages, setUploadedImages] = useState<{design?: string; inspiration?: string}>({})
   const { dispatch } = useCart()
   const { toast } = useToast()
@@ -40,7 +39,7 @@ export const CakeOrderForm = () => {
       size: "6-inch",
       flavors: [],
       message: "",
-      deliveryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+      deliveryDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) // Default to 2 weeks from now
     }
   })
 
@@ -48,21 +47,22 @@ export const CakeOrderForm = () => {
     const size = form.watch("size") as CakeSize
     const flavors = form.watch("flavors")
     const deliveryDate = form.watch("deliveryDate")
+    const cakeType = form.watch("cakeType")
     
-    if (size) {
+    if (size && deliveryDate && cakeType) {
       // Check if custom design (image uploaded)
       const isCustomDesign = !!(uploadedImages.design || uploadedImages.inspiration)
       
       // Check if multiple flavors
       const isMultipleFlavors = flavors && flavors.length > 1
       
-      // Check rush order - changed from 5 to 7 days
-      const currentDate = new Date()
-      const daysDifference = Math.ceil(
-        (deliveryDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)
-      )
-      const newIsRushOrder = daysDifference < 7
-      setIsRushOrder(newIsRushOrder)
+      // Check rush order based on cake type
+      const newIsRushOrder = isRushOrder({
+        cakeType: cakeType as any,
+        deliveryDate,
+        currentDate: new Date()
+      })
+      setIsRushOrderState(newIsRushOrder)
       
       const newPrice = calculateCakePrice({
         size,
@@ -72,7 +72,7 @@ export const CakeOrderForm = () => {
       })
       setTotalPrice(newPrice)
     }
-  }, [form.watch("size"), form.watch("flavors"), form.watch("deliveryDate"), uploadedImages])
+  }, [form.watch("size"), form.watch("flavors"), form.watch("deliveryDate"), form.watch("cakeType"), uploadedImages])
 
   const onSubmit = (data: z.infer<typeof orderFormSchema>) => {
     const cakeId = uuidv4()
@@ -119,7 +119,7 @@ export const CakeOrderForm = () => {
 
           <ImageUpload onImagesChange={setUploadedImages} />
           
-          <DeliveryDatePicker form={form} isRushOrder={isRushOrder} />
+          <DeliveryDatePicker form={form} isRushOrder={isRushOrderState} cakeType={form.watch("cakeType")} />
 
           {/* Price Breakdown */}
           <div className="bg-gray-50 p-4 rounded-lg space-y-2">
@@ -141,7 +141,7 @@ export const CakeOrderForm = () => {
                   <span>+£{(calculateCakePrice({ size: form.watch("size") as CakeSize, isMultipleFlavors: false }) * 0.25).toFixed(2)}</span>
                 </div>
               )}
-              {isRushOrder && (
+              {isRushOrderState && (
                 <div className="flex justify-between text-orange-600">
                   <span>Rush Order (+30%)</span>
                   <span>+£{(calculateCakePrice({ size: form.watch("size") as CakeSize, isRushOrder: false }) * 0.30).toFixed(2)}</span>
