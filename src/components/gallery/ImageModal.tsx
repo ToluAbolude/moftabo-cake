@@ -26,12 +26,12 @@ const ImageModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 bg-black/95 border-none flex items-center justify-center">
-        <div className="relative w-full h-full flex items-center justify-center">
+      <DialogContent className="fixed inset-0 max-w-none max-h-none w-screen h-screen p-0 bg-black/95 border-none flex items-center justify-center m-0">
+        <div className="relative w-full h-full flex items-center justify-center p-4">
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-4 right-4 z-20 text-white hover:bg-white/20 bg-black/30"
+            className="absolute top-4 right-4 z-20 text-white hover:bg-white/20 bg-black/50 rounded-full"
             onClick={onClose}
           >
             <X className="h-6 w-6" />
@@ -42,19 +42,19 @@ const ImageModal = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-white/20 bg-black/30"
+                className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-white/20 bg-black/50 rounded-full"
                 onClick={onPrevious}
               >
-                <ChevronLeft className="h-8 w-8" />
+                <ChevronLeft className="h-6 w-6 md:h-8 md:w-8" />
               </Button>
 
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-white/20 bg-black/30"
+                className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-white/20 bg-black/50 rounded-full"
                 onClick={onNext}
               >
-                <ChevronRight className="h-8 w-8" />
+                <ChevronRight className="h-6 w-6 md:h-8 md:w-8" />
               </Button>
             </>
           )}
@@ -62,10 +62,10 @@ const ImageModal = ({
           <img
             src={currentImage}
             alt={`Cake design ${currentImageIndex + 1}`}
-            className="max-w-full max-h-full object-contain"
+            className="max-w-[calc(100%-80px)] max-h-[calc(100%-80px)] object-contain"
           />
 
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm bg-black/70 px-3 py-1 rounded z-10">
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm bg-black/70 px-3 py-1 rounded-full z-10">
             {currentImageIndex + 1} of {images.length}
           </div>
         </div>
