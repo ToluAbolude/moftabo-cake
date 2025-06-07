@@ -39,8 +39,22 @@ export const useDashboardData = () => {
   const [recentOrders, setRecentOrders] = useState<OrderData[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const validateAdminAccess = async () => {
+    try {
+      const { data: isAdminResult, error } = await supabase.rpc('is_admin');
+      if (error) {
+        console.error("Error checking admin status:", error);
+        return false;
+      }
+      return isAdminResult;
+    } catch (error) {
+      console.error("Error validating admin access:", error);
+      return false;
+    }
+  };
+
   const generateMockData = () => {
-    // Fallback mock data
+    // Fallback mock data for when real data isn't available
     const currentDate = new Date();
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     
@@ -104,8 +118,18 @@ export const useDashboardData = () => {
 
   const fetchDashboardData = async () => {
     setLoading(true);
+    
     try {
-      // Fetch real orders data
+      // Validate admin access before fetching data
+      const hasAdminAccess = await validateAdminAccess();
+      if (!hasAdminAccess) {
+        console.warn("Unauthorized access attempt to dashboard data");
+        generateMockData(); // Fallback to mock data
+        setLoading(false);
+        return;
+      }
+
+      // Fetch real orders data with proper error handling
       const { data: ordersData, error: ordersError } = await supabase
         .from('orders')
         .select('*')
@@ -114,7 +138,6 @@ export const useDashboardData = () => {
 
       if (ordersError) {
         console.error("Error fetching orders:", ordersError);
-        // Fall back to mock data if there's an error
         generateMockData();
         return;
       }
@@ -164,6 +187,20 @@ export const useDashboardData = () => {
         visitsGrowth: calculateGrowth(currentMonth?.visits || 0, previousMonth?.visits || 0),
         questionsGrowth: Math.floor(Math.random() * 20) - 10 // Random growth for demo
       });
+
+      // Log dashboard access for audit trail
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        await supabase.from('audit_logs').insert({
+          user_id: session.user.id,
+          action: 'DASHBOARD_ACCESS',
+          table_name: 'orders',
+          new_data: { 
+            orders_count: ordersData?.length || 0,
+            accessed_at: new Date().toISOString()
+          }
+        }).catch(err => console.error("Failed to log dashboard access:", err));
+      }
 
     } catch (error) {
       console.error("Error fetching dashboard data:", error);

@@ -5,7 +5,7 @@ import { useDashboardData } from "./admin/useDashboardData";
 import { useDataExport } from "./admin/useDataExport";
 
 export const useAdminDashboard = () => {
-  const { checkAdminAccess } = useAdminAuth();
+  const { checkAdminAccess, logAdminAction } = useAdminAuth();
   const { 
     chartData, 
     stats, 
@@ -27,7 +27,15 @@ export const useAdminDashboard = () => {
       }
     });
 
-    const interval = setInterval(fetchDashboardData, 60000); // Refresh every minute
+    // Refresh every 5 minutes instead of every minute for better performance
+    const interval = setInterval(() => {
+      checkAdminAccess().then(hasAccess => {
+        if (hasAccess) {
+          fetchDashboardData();
+        }
+      });
+    }, 300000); // 5 minutes
+
     return () => clearInterval(interval);
   }, []);
 
@@ -39,6 +47,7 @@ export const useAdminDashboard = () => {
     exportOrdersData,
     exportToSpreadsheet,
     exportToPDFReport,
-    refreshData: fetchDashboardData
+    refreshData: fetchDashboardData,
+    logAdminAction
   };
 };

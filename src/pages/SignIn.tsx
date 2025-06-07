@@ -44,29 +44,59 @@ const SignIn = () => {
 
       if (signInError) {
         toast({ title: signInError.message, variant: "destructive" });
-      } else {
-        const userId = data.session.user.id;
-        
-        // If it's the admin email, ensure they have the admin role
-        if (form.email === 'admin@moftabo.com') {
-          // Use RPC to avoid type issues
-          const { error } = await supabase.rpc('assign_admin_role_if_needed', {
-            user_id: userId
-          });
-          
-          if (error) {
-            console.error('Error ensuring admin role:', error);
-          }
-        }
+        return;
+      }
 
-        toast({ title: "Welcome back!" });
-        if (userType === "admin" && form.email === 'admin@moftabo.com') {
-          navigate("/admin");
-        } else {
-          navigate("/profile");
+      const userId = data.session.user.id;
+      
+      // Use the new RPC function to assign admin role if needed
+      if (form.email === 'admin@moftabo.com') {
+        const { error } = await supabase.rpc('assign_admin_role_if_needed', {
+          user_id: userId
+        });
+        
+        if (error) {
+          console.error('Error ensuring admin role:', error);
         }
       }
+
+      // Check if user is actually an admin using the new role system
+      if (userType === "admin") {
+        const { data: isAdminResult, error: adminError } = await supabase.rpc('is_admin');
+        
+        if (adminError || !isAdminResult) {
+          toast({ title: "You do not have admin access", variant: "destructive" });
+          return;
+        }
+
+        // Log admin login for audit trail
+        await supabase.from('audit_logs').insert({
+          user_id: userId,
+          action: 'ADMIN_LOGIN',
+          new_data: { 
+            login_time: new Date().toISOString(),
+            user_email: form.email 
+          }
+        }).catch(err => console.error("Failed to log admin login:", err));
+
+        toast({ title: "Welcome back, Admin!" });
+        navigate("/admin");
+      } else {
+        // Log customer login
+        await supabase.from('audit_logs').insert({
+          user_id: userId,
+          action: 'CUSTOMER_LOGIN',
+          new_data: { 
+            login_time: new Date().toISOString(),
+            user_email: form.email 
+          }
+        }).catch(err => console.error("Failed to log customer login:", err));
+
+        toast({ title: "Welcome back!" });
+        navigate("/profile");
+      }
     } catch (err: any) {
+      console.error("Sign in error:", err);
       toast({ title: "Sign in failed. Try again.", variant: "destructive" });
     } finally {
       setLoading(false);

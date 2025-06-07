@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -25,24 +26,30 @@ const Register = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const validateInput = () => {
     if (!form.email.includes("@")) {
       toast({ title: "Please enter a valid email.", variant: "destructive" });
-      return;
+      return false;
     }
     if (form.password.length < 6) {
       toast({ title: "Password must be at least 6 characters.", variant: "destructive" });
-      return;
+      return false;
     }
     if (form.password !== form.confirm) {
       toast({ title: "Passwords do not match.", variant: "destructive" });
-      return;
+      return false;
     }
+    return true;
+  };
 
-    // Don't allow registration with admin email
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateInput()) return;
+
+    // Enhanced security: Don't allow registration with admin email
     if (form.email === 'admin@moftabo.com') {
-      toast({ title: "This email is reserved.", variant: "destructive" });
+      toast({ title: "This email is reserved for system administrators.", variant: "destructive" });
       return;
     }
 
@@ -51,16 +58,33 @@ const Register = () => {
       const { error: signUpError, data } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/profile`
+        }
       });
       
       if (signUpError) {
         toast({ title: signUpError.message, variant: "destructive" });
-      } else {
+        return;
+      }
+
+      if (data.user) {
+        // Log user registration for audit trail
+        await supabase.from('audit_logs').insert({
+          user_id: data.user.id,
+          action: 'USER_REGISTRATION',
+          new_data: { 
+            registration_time: new Date().toISOString(),
+            user_email: form.email 
+          }
+        }).catch(err => console.error("Failed to log user registration:", err));
+
         toast({ title: "Registration successful! Please check your email for confirmation." });
         navigate("/profile");
       }
     } catch (err: any) {
-      toast({ title: "Registration failed. Try again.", variant: "destructive" });
+      console.error("Registration error:", err);
+      toast({ title: "Registration failed. Please try again.", variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -105,7 +129,7 @@ const Register = () => {
             <Input
               name="password"
               type="password"
-              placeholder="Password"
+              placeholder="Password (min 6 characters)"
               autoComplete="new-password"
               onChange={handleChange}
               value={form.password}
