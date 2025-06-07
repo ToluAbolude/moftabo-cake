@@ -5,6 +5,7 @@ export interface PricingOptions {
   size: CakeSize;
   isCustomDesign?: boolean;
   isRushOrder?: boolean;
+  isMultipleFlavors?: boolean;
 }
 
 const BASE_PRICES: Record<CakeSize, number> = {
@@ -15,12 +16,17 @@ const BASE_PRICES: Record<CakeSize, number> = {
 
 const CUSTOM_DESIGN_MULTIPLIER = 1.25; // +25%
 const RUSH_ORDER_MULTIPLIER = 1.30;    // +30%
+const MULTIPLE_FLAVORS_MULTIPLIER = 1.25; // +25%
 
-export const calculateCakePrice = ({ size, isCustomDesign = false, isRushOrder = false }: PricingOptions): number => {
+export const calculateCakePrice = ({ size, isCustomDesign = false, isRushOrder = false, isMultipleFlavors = false }: PricingOptions): number => {
   let finalPrice = BASE_PRICES[size];
 
   if (isCustomDesign) {
     finalPrice *= CUSTOM_DESIGN_MULTIPLIER;
+  }
+  
+  if (isMultipleFlavors) {
+    finalPrice *= MULTIPLE_FLAVORS_MULTIPLIER;
   }
   
   if (isRushOrder) {
@@ -31,4 +37,3 @@ export const calculateCakePrice = ({ size, isCustomDesign = false, isRushOrder =
 };
 
 export const getBasePriceForSize = (size: CakeSize): number => BASE_PRICES[size];
-

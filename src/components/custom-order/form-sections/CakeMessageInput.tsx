@@ -1,6 +1,6 @@
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 import { UseFormReturn } from "react-hook-form"
 
 type CakeMessageInputProps = {
@@ -16,7 +16,11 @@ export const CakeMessageInput = ({ form }: CakeMessageInputProps) => {
         <FormItem>
           <FormLabel>Cake Message</FormLabel>
           <FormControl>
-            <Input placeholder="Enter message for the cake" {...field} />
+            <Textarea 
+              placeholder="Enter message for the cake (optional)" 
+              className="min-h-[80px]"
+              {...field} 
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

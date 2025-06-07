@@ -14,13 +14,12 @@ import { CakeTypeSelect } from "./form-sections/CakeTypeSelect"
 import { CakeSizeSelect } from "./form-sections/CakeSizeSelect"
 import { CakeFlavorSelect } from "./form-sections/CakeFlavorSelect"
 import { CakeMessageInput } from "./form-sections/CakeMessageInput"
-import { DesignOptions } from "./form-sections/DesignOptions"
 import { DeliveryDatePicker } from "./form-sections/DeliveryDatePicker"
 
 const orderFormSchema = z.object({
   cakeType: z.string().min(1, "Please select a cake type"),
   size: z.string().min(1, "Please select a cake size"),
-  flavor: z.string().min(1, "Please select a cake flavor"),
+  flavors: z.array(z.string()).min(1, "Please select at least one cake flavor"),
   message: z.string().optional(),
   designImage: z.string().optional(),
   inspirationImage: z.string().optional(),
@@ -29,8 +28,8 @@ const orderFormSchema = z.object({
 
 export const CakeOrderForm = () => {
   const [totalPrice, setTotalPrice] = useState(0)
-  const [isCustomDesign, setIsCustomDesign] = useState(false)
   const [isRushOrder, setIsRushOrder] = useState(false)
+  const [uploadedImages, setUploadedImages] = useState<{design?: string; inspiration?: string}>({})
   const { dispatch } = useCart()
   const { toast } = useToast()
 
@@ -39,7 +38,7 @@ export const CakeOrderForm = () => {
     defaultValues: {
       cakeType: "",
       size: "6-inch",
-      flavor: "",
+      flavors: [],
       message: "",
       deliveryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     }
@@ -47,31 +46,38 @@ export const CakeOrderForm = () => {
 
   useEffect(() => {
     const size = form.watch("size") as CakeSize
-    if (size) {
-      const newPrice = calculateCakePrice({
-        size,
-        isCustomDesign,
-        isRushOrder,
-      })
-      setTotalPrice(newPrice)
-    }
-  }, [form.watch("size"), isCustomDesign, isRushOrder, form])
-
-  useEffect(() => {
+    const flavors = form.watch("flavors")
     const deliveryDate = form.watch("deliveryDate")
-    if (deliveryDate) {
+    
+    if (size) {
+      // Check if custom design (image uploaded)
+      const isCustomDesign = !!(uploadedImages.design || uploadedImages.inspiration)
+      
+      // Check if multiple flavors
+      const isMultipleFlavors = flavors && flavors.length > 1
+      
+      // Check rush order
       const currentDate = new Date()
       const daysDifference = Math.ceil(
         (deliveryDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)
       )
       const newIsRushOrder = daysDifference < 5
       setIsRushOrder(newIsRushOrder)
+      
+      const newPrice = calculateCakePrice({
+        size,
+        isCustomDesign,
+        isRushOrder: newIsRushOrder,
+        isMultipleFlavors
+      })
+      setTotalPrice(newPrice)
     }
-  }, [form.watch("deliveryDate")])
+  }, [form.watch("size"), form.watch("flavors"), form.watch("deliveryDate"), uploadedImages])
 
   const onSubmit = (data: z.infer<typeof orderFormSchema>) => {
     const cakeId = uuidv4()
-    const cakeName = `Custom ${data.cakeType} Cake - ${data.flavor}`
+    const flavorText = data.flavors.length > 1 ? `${data.flavors.join(" & ")} Mix` : data.flavors[0]
+    const cakeName = `Custom ${data.cakeType} Cake - ${flavorText}`
     
     dispatch({
       type: "ADD_ITEM",
@@ -80,7 +86,7 @@ export const CakeOrderForm = () => {
         name: cakeName,
         price: totalPrice,
         quantity: 1,
-        imageUrl: data.designImage || data.inspirationImage || "/placeholder.svg"
+        imageUrl: uploadedImages.design || uploadedImages.inspiration || "/placeholder.svg"
       }
     })
     
@@ -90,37 +96,71 @@ export const CakeOrderForm = () => {
     })
     
     form.reset()
-    setIsCustomDesign(false)
+    setUploadedImages({})
   }
 
+  const hasCustomDesign = !!(uploadedImages.design || uploadedImages.inspiration)
+  const hasMultipleFlavors = form.watch("flavors")?.length > 1
+
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <CakeTypeSelect form={form} />
-          <CakeSizeSelect form={form} />
-          <CakeFlavorSelect form={form} />
-          <CakeMessageInput form={form} />
-        </div>
-
-        <DesignOptions 
-          isCustomDesign={isCustomDesign}
-          setIsCustomDesign={setIsCustomDesign}
-        />
-        
-        <ImageUpload />
-        
-        <DeliveryDatePicker form={form} isRushOrder={isRushOrder} />
-
-        <div className="flex justify-between items-center pt-6 border-t border-gray-200">
-          <div className="text-xl font-semibold">
-            Total Price: £{totalPrice.toFixed(2)}
+    <div className="max-h-[80vh] overflow-y-auto">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <CakeTypeSelect form={form} />
+            <CakeSizeSelect form={form} />
+            <div className="md:col-span-2">
+              <CakeFlavorSelect form={form} />
+            </div>
+            <div className="md:col-span-2">
+              <CakeMessageInput form={form} />
+            </div>
           </div>
-          <Button type="submit" className="bg-cake-purple hover:bg-cake-dark-purple">
-            Add to Cart
-          </Button>
-        </div>
-      </form>
-    </Form>
+
+          <ImageUpload onImagesChange={setUploadedImages} />
+          
+          <DeliveryDatePicker form={form} isRushOrder={isRushOrder} />
+
+          {/* Price Breakdown */}
+          <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+            <h3 className="font-semibold text-lg">Price Breakdown</h3>
+            <div className="space-y-1 text-sm">
+              <div className="flex justify-between">
+                <span>Base Price ({form.watch("size")})</span>
+                <span>£{calculateCakePrice({ size: form.watch("size") as CakeSize }).toFixed(2)}</span>
+              </div>
+              {hasCustomDesign && (
+                <div className="flex justify-between text-cake-purple">
+                  <span>Custom Design (+25%)</span>
+                  <span>+£{(calculateCakePrice({ size: form.watch("size") as CakeSize }) * 0.25).toFixed(2)}</span>
+                </div>
+              )}
+              {hasMultipleFlavors && (
+                <div className="flex justify-between text-cake-purple">
+                  <span>Multiple Flavors (+25%)</span>
+                  <span>+£{(calculateCakePrice({ size: form.watch("size") as CakeSize, isMultipleFlavors: false }) * 0.25).toFixed(2)}</span>
+                </div>
+              )}
+              {isRushOrder && (
+                <div className="flex justify-between text-orange-600">
+                  <span>Rush Order (+30%)</span>
+                  <span>+£{(calculateCakePrice({ size: form.watch("size") as CakeSize, isRushOrder: false }) * 0.30).toFixed(2)}</span>
+                </div>
+              )}
+              <div className="border-t pt-2 flex justify-between font-semibold text-lg">
+                <span>Total Price</span>
+                <span>£{totalPrice.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="sticky bottom-0 bg-white pt-4 border-t">
+            <Button type="submit" className="w-full bg-cake-purple hover:bg-cake-dark-purple">
+              Add to Cart - £{totalPrice.toFixed(2)}
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
   )
 }

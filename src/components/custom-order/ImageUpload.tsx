@@ -1,13 +1,21 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const ImageUpload = () => {
+type ImageUploadProps = {
+  onImagesChange: (images: {design?: string; inspiration?: string}) => void;
+}
+
+export const ImageUpload = ({ onImagesChange }: ImageUploadProps) => {
   const [selectedImages, setSelectedImages] = useState<{
     design?: string;
     inspiration?: string;
   }>({});
+
+  useEffect(() => {
+    onImagesChange(selectedImages);
+  }, [selectedImages, onImagesChange]);
 
   const handleImageUpload = (type: 'design' | 'inspiration') => (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -23,8 +31,18 @@ export const ImageUpload = () => {
     }
   };
 
+  const hasAnyImage = selectedImages.design || selectedImages.inspiration;
+
   return (
     <div className="space-y-6">
+      {hasAnyImage && (
+        <div className="bg-cake-light-purple/20 p-3 rounded-lg">
+          <p className="text-sm text-cake-purple font-medium">
+            ✨ Custom Design detected - +25% added to total price
+          </p>
+        </div>
+      )}
+      
       {/* Design Image Upload */}
       <div className="space-y-4">
         <p className="font-medium">Upload Your Cake Design</p>

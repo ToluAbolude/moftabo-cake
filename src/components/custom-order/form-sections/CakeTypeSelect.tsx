@@ -24,6 +24,7 @@ export const CakeTypeSelect = ({ form }: CakeTypeSelectProps) => {
             <SelectContent>
               <SelectItem value="birthday">Birthday Cake</SelectItem>
               <SelectItem value="wedding">Wedding Cake</SelectItem>
+              <SelectItem value="anniversary">Anniversary Cake</SelectItem>
               <SelectItem value="custom">Custom Cake</SelectItem>
             </SelectContent>
           </Select>
