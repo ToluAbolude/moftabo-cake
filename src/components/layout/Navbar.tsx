@@ -43,7 +43,7 @@ const Navbar = () => {
           {isMobile && (
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
+                <Button variant="ghost" size="icon">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -78,17 +78,19 @@ const Navbar = () => {
             </Sheet>
           )}
 
-          {/* Logo - Center on mobile, left on desktop */}
+          {/* Logo - Always visible, centered on mobile */}
           <Link 
             to="/" 
-            className={`flex items-center ${isMobile ? "absolute left-1/2 transform -translate-x-1/2" : ""}`}
+            className={`flex items-center ${isMobile ? "flex-1 justify-center" : ""}`}
           >
             <img 
               src="/lovable-uploads/b2097c3d-9103-4081-b628-4f03291bd9db.png" 
               alt="Moftabo Cake Logo" 
               className="h-10 w-10"
             />
-            {!isMobile && <span className="ml-2 font-bold text-lg text-cake-purple">Moftabo Cake</span>}
+            <span className={`ml-2 font-bold text-lg text-cake-purple ${isMobile ? "text-base" : ""}`}>
+              Moftabo Cake
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
