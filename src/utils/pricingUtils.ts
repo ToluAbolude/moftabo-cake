@@ -25,6 +25,14 @@ const CUSTOM_DESIGN_MULTIPLIER = 1.25; // +25%
 const RUSH_ORDER_MULTIPLIER = 1.30;    // +30%
 const MULTIPLE_FLAVORS_MULTIPLIER = 1.25; // +25%
 
+// Minimum delivery days from current date
+const MINIMUM_DELIVERY_DAYS: Record<CakeType, number> = {
+  'birthday': 5,
+  'anniversary': 5,
+  'custom': 5,
+  'wedding': 14, // 2 weeks
+};
+
 export const calculateCakePrice = ({ size, isCustomDesign = false, isRushOrder = false, isMultipleFlavors = false }: PricingOptions): number => {
   let finalPrice = BASE_PRICES[size];
 
@@ -53,11 +61,23 @@ export const isRushOrder = ({ cakeType, deliveryDate, currentDate = new Date() }
   switch (cakeType) {
     case 'birthday':
     case 'anniversary':
+    case 'custom':
       return daysDifference < 14; // 2 weeks
     case 'wedding':
       return daysDifference < 28; // 4 weeks
-    case 'custom':
     default:
       return daysDifference < 14; // 2 weeks
   }
+};
+
+export const getMinimumDeliveryDate = (cakeType: CakeType, currentDate: Date = new Date()): Date => {
+  const minDays = MINIMUM_DELIVERY_DAYS[cakeType];
+  const minDate = new Date(currentDate);
+  minDate.setDate(currentDate.getDate() + minDays);
+  return minDate;
+};
+
+export const isValidDeliveryDate = (cakeType: CakeType, deliveryDate: Date, currentDate: Date = new Date()): boolean => {
+  const minDate = getMinimumDeliveryDate(cakeType, currentDate);
+  return deliveryDate >= minDate;
 };
