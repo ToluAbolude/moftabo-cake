@@ -1,3 +1,4 @@
+
 import { MessageSquare, Users, BarChart, Download, RefreshCw, FileSpreadsheet, FileText } from "lucide-react";
 import { StatsCard } from "@/components/admin/StatsCard";
 import { AnalyticsChart } from "@/components/admin/AnalyticsChart";
@@ -136,7 +137,7 @@ const AdminDashboard = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <StatsCard
               title="Total Sales"
-              value={`$${stats.totalSales.toLocaleString()}`}
+              value={`£${stats.totalSales.toLocaleString()}`}
               growthRate={stats.salesGrowth}
               Icon={BarChart}
             />
@@ -177,7 +178,7 @@ const AdminDashboard = () => {
                     <TableRow key={order.id}>
                       <TableCell className="font-medium">{order.id.substring(0, 8)}...</TableCell>
                       <TableCell>{formatDate(order.created_at)}</TableCell>
-                      <TableCell>${order.total_amount.toLocaleString()}</TableCell>
+                      <TableCell>£{order.total_amount.toLocaleString()}</TableCell>
                       <TableCell>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status || '')}`}>
                           {order.status || 'pending'}
@@ -225,7 +226,7 @@ const AdminDashboard = () => {
                     <TableCell className="font-medium">{order.id.substring(0, 8)}...</TableCell>
                     <TableCell>{formatDate(order.created_at)}</TableCell>
                     <TableCell>{order.user_id ? order.user_id.substring(0, 8) + '...' : 'Guest'}</TableCell>
-                    <TableCell>${order.total_amount.toLocaleString()}</TableCell>
+                    <TableCell>£{order.total_amount.toLocaleString()}</TableCell>
                     <TableCell>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status || '')}`}>
                         {order.status || 'pending'}

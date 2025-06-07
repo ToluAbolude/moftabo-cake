@@ -44,7 +44,7 @@ const Navbar = () => {
           >
             <img 
               src="/lovable-uploads/b2097c3d-9103-4081-b628-4f03291bd9db.png" 
-              alt="Moftabo Cakes Logo" 
+              alt="Moftabo Cake Logo" 
               className="h-10 w-10"
             />
           </Link>
@@ -70,10 +70,10 @@ const Navbar = () => {
                   <div className="flex items-center mb-8">
                     <img 
                       src="/lovable-uploads/b2097c3d-9103-4081-b628-4f03291bd9db.png" 
-                      alt="Moftabo Cakes Logo" 
+                      alt="Moftabo Cake Logo" 
                       className="h-8 w-8 mr-2"
                     />
-                    <span className="font-bold text-lg text-cake-purple">Moftabo Cakes</span>
+                    <span className="font-bold text-lg text-cake-purple">Moftabo Cake</span>
                   </div>
                   <div className="flex flex-col space-y-4 mt-8">
                     <NavLinks />

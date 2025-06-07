@@ -1,3 +1,4 @@
+
 import { useSearchParams } from "react-router-dom";
 import Footer from "@/components/layout/Footer";
 import { cakeImages } from "@/assets/images/gallery";
@@ -27,7 +28,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake31,
     price: getBasePriceForSize('8-inch'),
     category: "Chocolate",
-    sizes: ["6-inch", "8-inch", "10-inch"],
+    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch", "11-inch", "12-inch", "14-inch"],
     flavors: ["Chocolate", "Dark Chocolate"]
   },
   {
@@ -36,8 +37,8 @@ const allCakes: Cake[] = [
     description: "Vanilla sponge with fresh strawberries and cream. Ideal for summer parties! Bestseller as a 6-inch cake with vanilla-strawberry combination.",
     imageUrl: cakeImages.cake32,
     price: getBasePriceForSize('6-inch'),
-    category: "Fruit",
-    sizes: ["6-inch", "8-inch"],
+    category: "Strawberry",
+    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
     flavors: ["Vanilla", "Strawberry"]
   },
   {
@@ -47,7 +48,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake33,
     price: getBasePriceForSize('10-inch'),
     category: "Wedding",
-    sizes: ["8-inch", "10-inch", "12-inch"],
+    sizes: ["8-inch", "10-inch", "11-inch", "12-inch", "14-inch"],
     flavors: ["Vanilla", "Chocolate", "Red Velvet"]
   },
   {
@@ -57,7 +58,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake34,
     price: getBasePriceForSize('8-inch'),
     category: "Birthday",
-    sizes: ["6-inch", "8-inch"],
+    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
     flavors: ["Vanilla", "Funfetti"]
   },
   {
@@ -67,7 +68,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake35,
     price: getBasePriceForSize('6-inch'),
     category: "Specialty",
-    sizes: ["6-inch", "8-inch"],
+    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch"],
     flavors: ["Red Velvet"]
   },
   {
@@ -77,7 +78,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake36,
     price: getBasePriceForSize('8-inch'),
     category: "Fruit",
-    sizes: ["6-inch", "8-inch"],
+    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
     flavors: ["Lemon", "Blueberry"]
   },
   {
@@ -87,7 +88,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake37,
     price: getBasePriceForSize('6-inch'),
     category: "Coffee",
-    sizes: ["6-inch", "8-inch"],
+    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch"],
     flavors: ["Coffee", "Mascarpone"]
   },
   {
@@ -97,13 +98,33 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake38,
     price: getBasePriceForSize('10-inch'),
     category: "Anniversary",
-    sizes: ["8-inch", "10-inch"],
+    sizes: ["6-inch", "7-inch", "8-inch", "9-inch", "10-inch", "11-inch", "12-inch"],
     flavors: ["Vanilla", "Champagne"]
+  },
+  {
+    id: "9",
+    name: "Fresh Strawberry Cake",
+    description: "Pure strawberry sponge with strawberry buttercream. Made with real strawberry puree for intense berry flavor. Perfect for strawberry lovers!",
+    imageUrl: cakeImages.cake39,
+    price: getBasePriceForSize('6-inch'),
+    category: "Strawberry",
+    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch"],
+    flavors: ["Strawberry", "Strawberry Vanilla"]
+  },
+  {
+    id: "10",
+    name: "Baby Shower Bliss",
+    description: "Adorable pastel cake perfect for baby showers. Available in pink or blue themes with cute decorations. Most popular in 8-inch size!",
+    imageUrl: cakeImages.cake40,
+    price: getBasePriceForSize('8-inch'),
+    category: "Baby Shower",
+    sizes: ["6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
+    flavors: ["Vanilla", "Strawberry", "Lemon"]
   }
 ];
 
 const categories = [
-  "All", "Birthday", "Wedding", "Anniversary", "Chocolate", "Fruit", "Specialty", "Coffee"
+  "All", "Birthday", "Wedding", "Anniversary", "Baby Shower", "Chocolate", "Strawberry", "Fruit", "Specialty", "Coffee"
 ];
 
 const CakeCatalog = () => {

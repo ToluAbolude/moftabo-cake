@@ -1,3 +1,4 @@
+
 import { Mail, Phone, MapPin, Instagram, Facebook, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -10,10 +11,10 @@ const Footer = () => {
             <div className="flex items-center mb-4">
               <img 
                 src="/lovable-uploads/b2097c3d-9103-4081-b628-4f03291bd9db.png" 
-                alt="Moftabo Cakes Logo" 
+                alt="Moftabo Cake Logo" 
                 className="h-10 w-10 mr-2"
               />
-              <span className="text-xl font-bold text-cake-dark-purple">Moftabo</span>
+              <span className="text-xl font-bold text-cake-dark-purple">Moftabo Cake</span>
             </div>
             <p className="text-gray-600 mb-6">
               Delicious custom cakes made with love for over 11 years. Every celebration deserves a Moftabo cake.
@@ -82,7 +83,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-200 pt-8 mt-8 text-center text-gray-500 text-sm">
-          <p>&copy; {new Date().getFullYear()} Moftabo Cake Creations. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Moftabo Cake. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -1,5 +1,6 @@
-export type CakeSize = '5-inch' | '6-inch' | '7-inch' | '8-inch' | '9-inch' | '10-inch' | '11-inch' | '12-inch';
-export type CakeType = 'birthday' | 'anniversary' | 'wedding' | 'custom';
+
+export type CakeSize = '4-inch' | '5-inch' | '6-inch' | '7-inch' | '8-inch' | '9-inch' | '10-inch' | '11-inch' | '12-inch' | '14-inch';
+export type CakeType = 'birthday' | 'anniversary' | 'wedding' | 'baby_shower' | 'custom';
 
 export interface PricingOptions {
   size: CakeSize;
@@ -15,6 +16,7 @@ export interface RushOrderOptions {
 }
 
 const BASE_PRICES: Record<CakeSize, number> = {
+  '4-inch': 45,
   '5-inch': 60,
   '6-inch': 75,
   '7-inch': 95,
@@ -23,6 +25,7 @@ const BASE_PRICES: Record<CakeSize, number> = {
   '10-inch': 180,
   '11-inch': 215,
   '12-inch': 255,
+  '14-inch': 320,
 };
 
 const CUSTOM_DESIGN_MULTIPLIER = 1.25; // +25%
@@ -33,6 +36,7 @@ const MULTIPLE_FLAVORS_MULTIPLIER = 1.25; // +25%
 const MINIMUM_DELIVERY_DAYS: Record<CakeType, number> = {
   'birthday': 5,
   'anniversary': 5,
+  'baby_shower': 7,
   'custom': 5,
   'wedding': 14, // 2 weeks
 };
@@ -67,6 +71,8 @@ export const isRushOrder = ({ cakeType, deliveryDate, currentDate = new Date() }
     case 'anniversary':
     case 'custom':
       return daysDifference < 14; // 2 weeks
+    case 'baby_shower':
+      return daysDifference < 10; // 10 days
     case 'wedding':
       return daysDifference < 28; // 4 weeks
     default:

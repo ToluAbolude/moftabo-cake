@@ -9,7 +9,7 @@ type CakeSizeSelectProps = {
 }
 
 export const CakeSizeSelect = ({ form }: CakeSizeSelectProps) => {
-  const sizes: CakeSize[] = ['5-inch', '6-inch', '7-inch', '8-inch', '9-inch', '10-inch', '11-inch', '12-inch'];
+  const sizes: CakeSize[] = ['4-inch', '5-inch', '6-inch', '7-inch', '8-inch', '9-inch', '10-inch', '11-inch', '12-inch', '14-inch'];
 
   return (
     <FormField
@@ -25,7 +25,7 @@ export const CakeSizeSelect = ({ form }: CakeSizeSelectProps) => {
               onValueChange={(value) => {
                 if (value) field.onChange(value)
               }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-2 w-full"
+              className="grid grid-cols-2 md:grid-cols-5 gap-2 w-full"
             >
               {sizes.map((size) => (
                 <ToggleGroupItem 
