@@ -1,6 +1,8 @@
 
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useAdminValidation } from "./useAdminValidation";
+import { useMockDataGenerator } from "./useMockDataGenerator";
+import { useOrdersData } from "./useOrdersData";
 
 interface DashboardData {
   date: string;
@@ -39,173 +41,47 @@ export const useDashboardData = () => {
   const [recentOrders, setRecentOrders] = useState<OrderData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const validateAdminAccess = async () => {
-    try {
-      const { data: isAdminResult, error } = await supabase.rpc('is_admin');
-      if (error) {
-        console.error("Error checking admin status:", error);
-        return false;
-      }
-      return isAdminResult;
-    } catch (error) {
-      console.error("Error validating admin access:", error);
-      return false;
-    }
-  };
+  const { validateAdminAccess, logAuditAccess } = useAdminValidation();
+  const { generateMockChartData, generateMockStats, generateMockOrders } = useMockDataGenerator();
+  const { fetchOrders, generateChartDataFromOrders, calculateStatsFromOrders } = useOrdersData();
 
   const generateMockData = () => {
-    // Fallback mock data for when real data isn't available
-    const currentDate = new Date();
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const generatedChartData = generateMockChartData();
+    const generatedStats = generateMockStats(generatedChartData);
+    const generatedOrders = generateMockOrders();
     
-    const generatedData = Array(6).fill(0).map((_, i) => {
-      const month = new Date(currentDate);
-      month.setMonth(currentDate.getMonth() - (5 - i));
-      const monthName = monthNames[month.getMonth()];
-      
-      const baseSales = 1500 + (i * 500) + Math.floor(Math.random() * 1000);
-      const baseVisits = 1000 + (i * 300) + Math.floor(Math.random() * 800);
-      
-      return {
-        date: monthName,
-        sales: baseSales,
-        visits: baseVisits
-      };
-    });
-    
-    setChartData(generatedData);
-    
-    const latestData = generatedData[generatedData.length - 1];
-    const previousData = generatedData[generatedData.length - 2];
-    
-    const calculateGrowth = (current: number, previous: number) => 
-      previous ? (((current - previous) / previous) * 100) : 0;
-    
-    setStats({
-      totalSales: latestData.sales,
-      totalVisits: latestData.visits,
-      totalQuestions: Math.floor(latestData.visits * 0.08),
-      salesGrowth: calculateGrowth(latestData.sales, previousData.sales),
-      visitsGrowth: calculateGrowth(latestData.visits, previousData.visits),
-      questionsGrowth: calculateGrowth(
-        Math.floor(latestData.visits * 0.08), 
-        Math.floor(previousData.visits * 0.08)
-      ),
-    });
-
-    // Generate mock recent orders if no real data
-    const mockOrders = Array(10).fill(0).map((_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - i);
-      
-      const statuses = ['ready_for_pickup', 'packaging', 'quality_check', 'decorating', 'baking', 'preparing', 'confirmed', 'pending'];
-      const status = statuses[Math.floor(Math.random() * statuses.length)];
-      
-      const amount = Math.floor(Math.random() * 500) + 50;
-      
-      return {
-        id: `mock-order-${crypto.randomUUID()}`,
-        created_at: date.toISOString(),
-        status: status,
-        total_amount: amount,
-        user_id: null,
-        items: [{ name: 'Custom Cake', price: amount, quantity: 1 }]
-      };
-    });
-    
-    setRecentOrders(mockOrders);
+    setChartData(generatedChartData);
+    setStats(generatedStats);
+    setRecentOrders(generatedOrders);
   };
 
   const fetchDashboardData = async () => {
     setLoading(true);
     
     try {
-      // Validate admin access before fetching data
       const hasAdminAccess = await validateAdminAccess();
       if (!hasAdminAccess) {
         console.warn("Unauthorized access attempt to dashboard data");
-        generateMockData(); // Fallback to mock data
+        generateMockData();
         setLoading(false);
         return;
       }
 
-      // Fetch real orders data with proper error handling
-      const { data: ordersData, error: ordersError } = await supabase
-        .from('orders')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(20);
+      try {
+        const ordersData = await fetchOrders();
+        setRecentOrders(ordersData);
 
-      if (ordersError) {
-        console.error("Error fetching orders:", ordersError);
+        const chartDataFromOrders = generateChartDataFromOrders(ordersData);
+        setChartData(chartDataFromOrders);
+
+        const calculatedStats = calculateStatsFromOrders(ordersData, chartDataFromOrders);
+        setStats(calculatedStats);
+
+        await logAuditAccess();
+      } catch (error) {
+        console.error("Error fetching real data, falling back to mock:", error);
         generateMockData();
-        return;
       }
-
-      setRecentOrders(ordersData || []);
-
-      // Calculate real stats from orders
-      const totalSales = ordersData?.reduce((sum, order) => sum + order.total_amount, 0) || 0;
-      const totalOrders = ordersData?.length || 0;
-
-      // Generate chart data based on real orders
-      const last6Months = Array(6).fill(0).map((_, i) => {
-        const date = new Date();
-        date.setMonth(date.getMonth() - (5 - i));
-        const monthName = date.toLocaleDateString('en-US', { month: 'short' });
-        
-        // Calculate orders for this month
-        const monthOrders = ordersData?.filter(order => {
-          const orderDate = new Date(order.created_at);
-          return orderDate.getMonth() === date.getMonth() && 
-                 orderDate.getFullYear() === date.getFullYear();
-        }) || [];
-
-        const monthlySales = monthOrders.reduce((sum, order) => sum + order.total_amount, 0);
-        
-        return {
-          date: monthName,
-          sales: monthlySales,
-          visits: Math.floor(monthlySales * 0.8) + Math.floor(Math.random() * 200) // Estimated visits
-        };
-      });
-
-      setChartData(last6Months);
-
-      // Calculate growth rates
-      const currentMonth = last6Months[last6Months.length - 1];
-      const previousMonth = last6Months[last6Months.length - 2];
-      
-      const calculateGrowth = (current: number, previous: number) => 
-        previous ? (((current - previous) / previous) * 100) : 0;
-
-      setStats({
-        totalSales: totalSales,
-        totalVisits: currentMonth?.visits || 0,
-        totalQuestions: Math.floor(totalOrders * 0.1), // Estimate: 10% of orders have questions
-        salesGrowth: calculateGrowth(currentMonth?.sales || 0, previousMonth?.sales || 0),
-        visitsGrowth: calculateGrowth(currentMonth?.visits || 0, previousMonth?.visits || 0),
-        questionsGrowth: Math.floor(Math.random() * 20) - 10 // Random growth for demo
-      });
-
-      // Log dashboard access for audit trail
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        try {
-          await supabase.from('audit_logs').insert({
-            user_id: session.user.id,
-            action: 'DASHBOARD_ACCESS',
-            table_name: 'orders',
-            new_data: { 
-              orders_count: ordersData?.length || 0,
-              accessed_at: new Date().toISOString()
-            }
-          });
-        } catch (err) {
-          console.error("Failed to log dashboard access:", err);
-        }
-      }
-
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
       generateMockData();
