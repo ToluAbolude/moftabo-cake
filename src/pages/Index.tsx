@@ -5,6 +5,7 @@ import FeaturedCakes from "@/components/home/FeaturedCakes";
 import CategorySection from "@/components/home/CategorySection";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import CTASection from "@/components/home/CTASection";
+import USPSection from "@/components/home/USPSection";
 import { useEffect } from "react";
 
 const Index = () => {
@@ -17,6 +18,7 @@ const Index = () => {
     <div className="min-h-screen bg-white overflow-hidden">
       <main>
         <Hero />
+        <USPSection />
         <FeaturedCakes />
         <CategorySection />
         <TestimonialsSection />

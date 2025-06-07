@@ -40,14 +40,13 @@ const Navbar = () => {
           {/* Logo */}
           <Link 
             to="/" 
-            className="flex items-center space-x-2"
+            className="flex items-center"
           >
             <img 
               src="/lovable-uploads/b2097c3d-9103-4081-b628-4f03291bd9db.png" 
               alt="Moftabo Cakes Logo" 
               className="h-10 w-10"
             />
-            <span className="font-bold text-xl text-cake-purple">Moftabo Cakes</span>
           </Link>
 
           {/* Desktop Navigation */}
