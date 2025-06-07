@@ -1,16 +1,6 @@
 
 import jsPDF from 'jspdf';
-import 'jspdf-autotable';
-
-// Extend jsPDF type to include autoTable
-declare module 'jspdf' {
-  interface jsPDF {
-    autoTable: (options: any) => jsPDF;
-    lastAutoTable?: {
-      finalY: number;
-    };
-  }
-}
+import autoTable from 'jspdf-autotable';
 
 interface OrderData {
   id: string;
@@ -122,7 +112,7 @@ export const exportToPDF = (
       ['Total Questions', stats.totalQuestions.toString(), `${stats.questionsGrowth.toFixed(2)}%`]
     ];
 
-    doc.autoTable({
+    autoTable(doc, {
       startY: yPosition,
       head: [['Metric', 'Value', 'Growth Rate']],
       body: statsData,
@@ -132,7 +122,7 @@ export const exportToPDF = (
     });
 
     // Get the Y position after the table
-    yPosition = doc.lastAutoTable ? doc.lastAutoTable.finalY + 20 : yPosition + 80;
+    yPosition = (doc as any).lastAutoTable?.finalY ? (doc as any).lastAutoTable.finalY + 20 : yPosition + 80;
 
     // Monthly Data Table
     if (yPosition > 250) {
@@ -150,7 +140,7 @@ export const exportToPDF = (
       data.visits.toLocaleString()
     ]);
 
-    doc.autoTable({
+    autoTable(doc, {
       startY: yPosition,
       head: [['Month', 'Sales', 'Visits']],
       body: monthlyData,
@@ -160,7 +150,7 @@ export const exportToPDF = (
     });
 
     // Get the Y position after the table
-    yPosition = doc.lastAutoTable ? doc.lastAutoTable.finalY + 20 : yPosition + 80;
+    yPosition = (doc as any).lastAutoTable?.finalY ? (doc as any).lastAutoTable.finalY + 20 : yPosition + 80;
 
     // Orders Table
     if (yPosition > 220) {
@@ -197,7 +187,7 @@ export const exportToPDF = (
       ];
     });
 
-    doc.autoTable({
+    autoTable(doc, {
       startY: yPosition,
       head: [['Order ID', 'Date', 'Customer', 'Amount', 'Status', 'Items']],
       body: ordersData,
