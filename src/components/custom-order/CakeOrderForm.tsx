@@ -56,12 +56,12 @@ export const CakeOrderForm = () => {
       // Check if multiple flavors
       const isMultipleFlavors = flavors && flavors.length > 1
       
-      // Check rush order
+      // Check rush order - changed from 5 to 7 days
       const currentDate = new Date()
       const daysDifference = Math.ceil(
         (deliveryDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)
       )
-      const newIsRushOrder = daysDifference < 5
+      const newIsRushOrder = daysDifference < 7
       setIsRushOrder(newIsRushOrder)
       
       const newPrice = calculateCakePrice({

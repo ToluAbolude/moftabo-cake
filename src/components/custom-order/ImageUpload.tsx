@@ -43,68 +43,71 @@ export const ImageUpload = ({ onImagesChange }: ImageUploadProps) => {
         </div>
       )}
       
-      {/* Design Image Upload */}
-      <div className="space-y-4">
-        <p className="font-medium">Upload Your Cake Design</p>
-        <div className="flex items-center gap-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => document.getElementById("design-image-upload")?.click()}
-            className="flex items-center gap-2"
-          >
-            <Upload className="h-4 w-4" />
-            Choose Design Image
-          </Button>
-          <input
-            type="file"
-            id="design-image-upload"
-            accept="image/*"
-            className="hidden"
-            onChange={handleImageUpload('design')}
-          />
-        </div>
-        {selectedImages.design && (
-          <div className="mt-4">
-            <img
-              src={selectedImages.design}
-              alt="Design uploaded"
-              className="max-w-xs rounded-lg shadow-md"
+      {/* Image Upload Section - Side by Side */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Design Image Upload */}
+        <div className="space-y-4">
+          <p className="font-medium">Upload Cake Design</p>
+          <div className="flex items-center gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => document.getElementById("design-image-upload")?.click()}
+              className="flex items-center gap-2"
+            >
+              <Upload className="h-4 w-4" />
+              Choose Design Image
+            </Button>
+            <input
+              type="file"
+              id="design-image-upload"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageUpload('design')}
             />
           </div>
-        )}
-      </div>
+          {selectedImages.design && (
+            <div className="mt-4">
+              <img
+                src={selectedImages.design}
+                alt="Design uploaded"
+                className="max-w-xs rounded-lg shadow-md"
+              />
+            </div>
+          )}
+        </div>
 
-      {/* Inspiration Image Upload */}
-      <div className="space-y-4">
-        <p className="font-medium">Upload Inspiration Image (Optional)</p>
-        <div className="flex items-center gap-4">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => document.getElementById("inspiration-image-upload")?.click()}
-            className="flex items-center gap-2"
-          >
-            <Upload className="h-4 w-4" />
-            Choose Inspiration
-          </Button>
-          <input
-            type="file"
-            id="inspiration-image-upload"
-            accept="image/*"
-            className="hidden"
-            onChange={handleImageUpload('inspiration')}
-          />
-        </div>
-        {selectedImages.inspiration && (
-          <div className="mt-4">
-            <img
-              src={selectedImages.inspiration}
-              alt="Inspiration uploaded"
-              className="max-w-xs rounded-lg shadow-md"
+        {/* Additional Design Image Upload */}
+        <div className="space-y-4">
+          <p className="font-medium">Additional Cake Design Image</p>
+          <div className="flex items-center gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => document.getElementById("inspiration-image-upload")?.click()}
+              className="flex items-center gap-2"
+            >
+              <Upload className="h-4 w-4" />
+              Choose Additional Image
+            </Button>
+            <input
+              type="file"
+              id="inspiration-image-upload"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageUpload('inspiration')}
             />
           </div>
-        )}
+          {selectedImages.inspiration && (
+            <div className="mt-4">
+              <img
+                src={selectedImages.inspiration}
+                alt="Additional design uploaded"
+                className="max-w-xs rounded-lg shadow-md"
+              />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

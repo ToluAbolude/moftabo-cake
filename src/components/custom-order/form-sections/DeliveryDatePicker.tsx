@@ -22,7 +22,7 @@ export const DeliveryDatePicker = ({ form, isRushOrder }: DeliveryDatePickerProp
           <DatePicker />
           {isRushOrder && (
             <p className="text-sm text-red-500">
-              Rush order fee applies for deliveries within 5 days
+              Rush order fee applies for deliveries within 7 days
             </p>
           )}
         </div>
