@@ -1,4 +1,3 @@
-
 import { useToast } from "@/hooks/use-toast";
 import { exportToCSV, exportToPDF } from "@/utils/exportUtils";
 import { supabase } from "@/integrations/supabase/client";
@@ -125,12 +124,22 @@ export const useDataExport = (
     if (!(await validateAdminAccess())) return;
 
     try {
+      console.log('Starting PDF export with data:', {
+        ordersCount: recentOrders.length,
+        statsPresent: !!stats,
+        chartDataCount: chartData.length
+      });
+
       exportToPDF(recentOrders, stats, chartData);
       await logExportAction('PDF', recentOrders.length);
       toast({ title: "PDF report generated successfully" });
     } catch (error) {
       console.error("PDF export failed:", error);
-      toast({ title: "PDF export failed", variant: "destructive" });
+      toast({ 
+        title: "PDF export failed", 
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        variant: "destructive" 
+      });
     }
   };
 
