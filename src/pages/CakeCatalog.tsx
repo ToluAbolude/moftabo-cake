@@ -28,7 +28,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake31,
     price: getBasePriceForSize('8-inch'),
     category: "Chocolate",
-    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch", "11-inch", "12-inch", "14-inch"],
+    sizes: ["5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch", "11-inch", "12-inch", "14-inch"],
     flavors: ["Chocolate", "Dark Chocolate"]
   },
   {
@@ -38,7 +38,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake32,
     price: getBasePriceForSize('6-inch'),
     category: "Strawberry",
-    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
+    sizes: ["5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
     flavors: ["Vanilla", "Strawberry"]
   },
   {
@@ -58,7 +58,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake34,
     price: getBasePriceForSize('8-inch'),
     category: "Birthday",
-    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
+    sizes: ["5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
     flavors: ["Vanilla", "Funfetti"]
   },
   {
@@ -68,7 +68,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake35,
     price: getBasePriceForSize('6-inch'),
     category: "Specialty",
-    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch"],
+    sizes: ["5-inch", "6-inch", "7-inch", "8-inch", "9-inch"],
     flavors: ["Red Velvet"]
   },
   {
@@ -78,7 +78,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake36,
     price: getBasePriceForSize('8-inch'),
     category: "Fruit",
-    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
+    sizes: ["5-inch", "6-inch", "7-inch", "8-inch", "9-inch", "10-inch"],
     flavors: ["Lemon", "Blueberry"]
   },
   {
@@ -88,7 +88,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake37,
     price: getBasePriceForSize('6-inch'),
     category: "Coffee",
-    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch"],
+    sizes: ["5-inch", "6-inch", "7-inch", "8-inch"],
     flavors: ["Coffee", "Mascarpone"]
   },
   {
@@ -108,7 +108,7 @@ const allCakes: Cake[] = [
     imageUrl: cakeImages.cake39,
     price: getBasePriceForSize('6-inch'),
     category: "Strawberry",
-    sizes: ["4-inch", "5-inch", "6-inch", "7-inch", "8-inch", "9-inch"],
+    sizes: ["5-inch", "6-inch", "7-inch", "8-inch", "9-inch"],
     flavors: ["Strawberry", "Strawberry Vanilla"]
   },
   {
