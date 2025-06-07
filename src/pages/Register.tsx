@@ -70,14 +70,18 @@ const Register = () => {
 
       if (data.user) {
         // Log user registration for audit trail
-        await supabase.from('audit_logs').insert({
-          user_id: data.user.id,
-          action: 'USER_REGISTRATION',
-          new_data: { 
-            registration_time: new Date().toISOString(),
-            user_email: form.email 
-          }
-        }).catch(err => console.error("Failed to log user registration:", err));
+        try {
+          await supabase.from('audit_logs').insert({
+            user_id: data.user.id,
+            action: 'USER_REGISTRATION',
+            new_data: { 
+              registration_time: new Date().toISOString(),
+              user_email: form.email 
+            }
+          });
+        } catch (err) {
+          console.error("Failed to log user registration:", err);
+        }
 
         toast({ title: "Registration successful! Please check your email for confirmation." });
         navigate("/profile");

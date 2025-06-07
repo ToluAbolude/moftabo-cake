@@ -191,15 +191,19 @@ export const useDashboardData = () => {
       // Log dashboard access for audit trail
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
-        await supabase.from('audit_logs').insert({
-          user_id: session.user.id,
-          action: 'DASHBOARD_ACCESS',
-          table_name: 'orders',
-          new_data: { 
-            orders_count: ordersData?.length || 0,
-            accessed_at: new Date().toISOString()
-          }
-        }).catch(err => console.error("Failed to log dashboard access:", err));
+        try {
+          await supabase.from('audit_logs').insert({
+            user_id: session.user.id,
+            action: 'DASHBOARD_ACCESS',
+            table_name: 'orders',
+            new_data: { 
+              orders_count: ordersData?.length || 0,
+              accessed_at: new Date().toISOString()
+            }
+          });
+        } catch (err) {
+          console.error("Failed to log dashboard access:", err);
+        }
       }
 
     } catch (error) {

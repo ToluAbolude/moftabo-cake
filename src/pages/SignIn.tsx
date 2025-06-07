@@ -70,27 +70,35 @@ const SignIn = () => {
         }
 
         // Log admin login for audit trail
-        await supabase.from('audit_logs').insert({
-          user_id: userId,
-          action: 'ADMIN_LOGIN',
-          new_data: { 
-            login_time: new Date().toISOString(),
-            user_email: form.email 
-          }
-        }).catch(err => console.error("Failed to log admin login:", err));
+        try {
+          await supabase.from('audit_logs').insert({
+            user_id: userId,
+            action: 'ADMIN_LOGIN',
+            new_data: { 
+              login_time: new Date().toISOString(),
+              user_email: form.email 
+            }
+          });
+        } catch (err) {
+          console.error("Failed to log admin login:", err);
+        }
 
         toast({ title: "Welcome back, Admin!" });
         navigate("/admin");
       } else {
         // Log customer login
-        await supabase.from('audit_logs').insert({
-          user_id: userId,
-          action: 'CUSTOMER_LOGIN',
-          new_data: { 
-            login_time: new Date().toISOString(),
-            user_email: form.email 
-          }
-        }).catch(err => console.error("Failed to log customer login:", err));
+        try {
+          await supabase.from('audit_logs').insert({
+            user_id: userId,
+            action: 'CUSTOMER_LOGIN',
+            new_data: { 
+              login_time: new Date().toISOString(),
+              user_email: form.email 
+            }
+          });
+        } catch (err) {
+          console.error("Failed to log customer login:", err);
+        }
 
         toast({ title: "Welcome back!" });
         navigate("/profile");

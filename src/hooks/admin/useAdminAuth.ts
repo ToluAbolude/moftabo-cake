@@ -35,15 +35,19 @@ export const useAdminAuth = () => {
       }
 
       // Log admin access for audit trail
-      await supabase.from('audit_logs').insert({
-        user_id: session.user.id,
-        action: 'ADMIN_ACCESS',
-        table_name: 'admin_dashboard',
-        new_data: { 
-          accessed_at: new Date().toISOString(),
-          user_email: session.user.email 
-        }
-      }).catch(err => console.error("Failed to log admin access:", err));
+      try {
+        await supabase.from('audit_logs').insert({
+          user_id: session.user.id,
+          action: 'ADMIN_ACCESS',
+          table_name: 'admin_dashboard',
+          new_data: { 
+            accessed_at: new Date().toISOString(),
+            user_email: session.user.email 
+          }
+        });
+      } catch (err) {
+        console.error("Failed to log admin access:", err);
+      }
       
       return true;
     } catch (error) {
