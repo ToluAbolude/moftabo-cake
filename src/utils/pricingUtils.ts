@@ -1,5 +1,4 @@
-
-export type CakeSize = '6-inch' | '8-inch' | '10-inch';
+export type CakeSize = '5-inch' | '6-inch' | '7-inch' | '8-inch' | '9-inch' | '10-inch' | '11-inch' | '12-inch';
 export type CakeType = 'birthday' | 'anniversary' | 'wedding' | 'custom';
 
 export interface PricingOptions {
@@ -16,9 +15,14 @@ export interface RushOrderOptions {
 }
 
 const BASE_PRICES: Record<CakeSize, number> = {
+  '5-inch': 60,
   '6-inch': 75,
+  '7-inch': 95,
   '8-inch': 120,
+  '9-inch': 150,
   '10-inch': 180,
+  '11-inch': 215,
+  '12-inch': 255,
 };
 
 const CUSTOM_DESIGN_MULTIPLIER = 1.25; // +25%

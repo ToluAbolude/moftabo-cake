@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { CakeSize, calculateCakePrice } from "@/utils/pricingUtils";
+import { CakeSize, calculateCakePrice, getBasePriceForSize } from "@/utils/pricingUtils";
 import { useState } from "react";
 
 interface CakeOptionsProps {
@@ -55,17 +55,18 @@ const CakeOptions = ({
     <div className="space-y-6">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Size</label>
-        <div className="flex flex-wrap gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {sizes.map((size) => (
             <Button
               key={size}
               variant={selectedSize === size ? "default" : "outline"}
               onClick={() => handleSizeSelect(size)}
-              className={selectedSize === size 
+              className={`flex flex-col items-center p-3 h-auto ${selectedSize === size 
                 ? "bg-cake-purple hover:bg-cake-dark-purple text-white" 
-                : "border-gray-300 text-gray-700"}
+                : "border-gray-300 text-gray-700"}`}
             >
-              {size}
+              <span className="font-semibold">{size}</span>
+              <span className="text-xs opacity-75">£{getBasePriceForSize(size as CakeSize)}</span>
             </Button>
           ))}
         </div>
