@@ -16,12 +16,10 @@ type DeliveryDatePickerProps = {
 
 export const DeliveryDatePicker = ({ form, isRushOrder, cakeType }: DeliveryDatePickerProps) => {
   const getRushOrderText = () => {
-    if (cakeType === 'birthday' || cakeType === 'anniversary') {
-      return 'Rush order fee applies for deliveries within 2 weeks'
-    } else if (cakeType === 'wedding') {
-      return 'Rush order fee applies for deliveries within 4 weeks'
+    if (cakeType === 'wedding') {
+      return 'Rush order fee applies for deliveries less than 4 weeks notice'
     }
-    return 'Rush order fee applies for deliveries within 2 weeks'
+    return 'Rush order fee applies for deliveries less than 2 weeks notice'
   }
 
   return (
