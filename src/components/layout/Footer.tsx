@@ -16,7 +16,7 @@ const Footer = () => {
               <span className="text-xl font-bold text-cake-dark-purple">Moftabo</span>
             </div>
             <p className="text-gray-600 mb-6">
-              Delicious custom cakes made with love for over 7 years. Every celebration deserves a Moftabo cake.
+              Delicious custom cakes made with love for over 11 years. Every celebration deserves a Moftabo cake.
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-cake-purple transition-colors">
