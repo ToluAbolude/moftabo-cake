@@ -1,4 +1,3 @@
-
 import { MessageSquare, Users, BarChart, Download, RefreshCw } from "lucide-react";
 import { StatsCard } from "@/components/admin/StatsCard";
 import { AnalyticsChart } from "@/components/admin/AnalyticsChart";
@@ -48,12 +47,14 @@ const AdminDashboard = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed':
-      case 'delivered':
+      case 'ready_for_pickup':
         return 'bg-green-100 text-green-800';
       case 'processing':
       case 'preparing':
       case 'baking':
+      case 'decorating':
+      case 'quality_check':
+      case 'packaging':
         return 'bg-blue-100 text-blue-800';
       case 'pending':
       case 'confirmed':

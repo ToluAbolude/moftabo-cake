@@ -183,7 +183,7 @@ export const useAdminDashboard = () => {
       const date = new Date();
       date.setDate(date.getDate() - i);
       
-      const statuses = ['completed', 'processing', 'pending', 'delivered'];
+      const statuses = ['ready_for_pickup', 'packaging', 'quality_check', 'decorating', 'baking', 'preparing', 'confirmed', 'pending'];
       const status = statuses[Math.floor(Math.random() * statuses.length)];
       
       const amount = Math.floor(Math.random() * 500) + 50;

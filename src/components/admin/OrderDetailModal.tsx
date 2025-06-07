@@ -45,8 +45,7 @@ export const OrderDetailModal = ({ orderId, isOpen, onClose }: OrderDetailModalP
 
   const statusOptions = [
     'pending', 'confirmed', 'preparing', 'baking', 'decorating', 
-    'quality_check', 'packaging', 'ready_for_pickup', 'out_for_delivery', 
-    'delivered', 'completed', 'cancelled'
+    'quality_check', 'packaging', 'ready_for_pickup', 'cancelled'
   ];
 
   useEffect(() => {
@@ -89,6 +88,25 @@ export const OrderDetailModal = ({ orderId, isOpen, onClose }: OrderDetailModalP
     }
   };
 
+  const sendPickupReadyEmail = async (orderId: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('send-pickup-notification', {
+        body: { orderId }
+      });
+
+      if (error) throw error;
+      
+      toast({ title: "Pickup notification email sent to customer" });
+    } catch (error) {
+      console.error('Error sending pickup email:', error);
+      toast({ 
+        title: "Failed to send pickup notification", 
+        description: "Status updated but email notification failed",
+        variant: "destructive" 
+      });
+    }
+  };
+
   const addStatusUpdate = async () => {
     if (!orderId || !newStatus || !newComment.trim()) {
       toast({ title: "Please fill in all required fields", variant: "destructive" });
@@ -115,6 +133,11 @@ export const OrderDetailModal = ({ orderId, isOpen, onClose }: OrderDetailModalP
         .eq('id', orderId);
 
       if (orderError) throw orderError;
+
+      // Send email notification if status is ready_for_pickup
+      if (newStatus === 'ready_for_pickup') {
+        await sendPickupReadyEmail(orderId);
+      }
 
       toast({ title: "Status updated successfully" });
       setNewStatus("");
@@ -159,9 +182,6 @@ export const OrderDetailModal = ({ orderId, isOpen, onClose }: OrderDetailModalP
       'quality_check': 'bg-indigo-100 text-indigo-800',
       'packaging': 'bg-cyan-100 text-cyan-800',
       'ready_for_pickup': 'bg-green-100 text-green-800',
-      'out_for_delivery': 'bg-blue-100 text-blue-800',
-      'delivered': 'bg-green-100 text-green-800',
-      'completed': 'bg-green-100 text-green-800',
       'cancelled': 'bg-red-100 text-red-800'
     };
     return statusColors[status] || 'bg-gray-100 text-gray-800';
