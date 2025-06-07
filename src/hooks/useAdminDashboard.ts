@@ -1,8 +1,8 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { exportToCSV, exportToPDF } from "@/utils/exportUtils";
 
 interface DashboardData {
   date: string;
@@ -221,6 +221,16 @@ export const useAdminDashboard = () => {
     linkElement.click();
   };
 
+  const exportToSpreadsheet = () => {
+    exportToCSV(recentOrders, stats, chartData);
+    toast({ title: "CSV file downloaded successfully" });
+  };
+
+  const exportToPDFReport = () => {
+    exportToPDF(recentOrders, stats, chartData);
+    toast({ title: "PDF report generated successfully" });
+  };
+
   useEffect(() => {
     checkAdminAccess().then(hasAccess => {
       if (hasAccess) {
@@ -238,6 +248,8 @@ export const useAdminDashboard = () => {
     recentOrders, 
     loading, 
     exportOrdersData,
+    exportToSpreadsheet,
+    exportToPDFReport,
     refreshData: fetchDashboardData
   };
 };

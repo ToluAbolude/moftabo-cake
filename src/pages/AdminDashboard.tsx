@@ -1,4 +1,4 @@
-import { MessageSquare, Users, BarChart, Download, RefreshCw } from "lucide-react";
+import { MessageSquare, Users, BarChart, Download, RefreshCw, FileSpreadsheet, FileText } from "lucide-react";
 import { StatsCard } from "@/components/admin/StatsCard";
 import { AnalyticsChart } from "@/components/admin/AnalyticsChart";
 import { OrderDetailModal } from "@/components/admin/OrderDetailModal";
@@ -7,10 +7,20 @@ import { useAdminDashboard } from "@/hooks/useAdminDashboard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 
 const AdminDashboard = () => {
-  const { chartData, stats, recentOrders, loading, exportOrdersData, refreshData } = useAdminDashboard();
+  const { 
+    chartData, 
+    stats, 
+    recentOrders, 
+    loading, 
+    exportOrdersData, 
+    exportToSpreadsheet, 
+    exportToPDFReport, 
+    refreshData 
+  } = useAdminDashboard();
   const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'complaints'>('overview');
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
@@ -76,14 +86,30 @@ const AdminDashboard = () => {
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
-          <Button 
-            variant="outline" 
-            onClick={exportOrdersData}
-            size="sm"
-          >
-            <Download className="h-4 w-4 mr-2" />
-            Export Data
-          </Button>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Download className="h-4 w-4 mr-2" />
+                Export Data
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={exportToSpreadsheet}>
+                <FileSpreadsheet className="h-4 w-4 mr-2" />
+                Export as CSV (Spreadsheet)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={exportToPDFReport}>
+                <FileText className="h-4 w-4 mr-2" />
+                Export as PDF Report
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={exportOrdersData}>
+                <Download className="h-4 w-4 mr-2" />
+                Export as JSON (Raw Data)
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Button 
             variant={activeTab === 'overview' ? 'default' : 'outline'} 
             onClick={() => setActiveTab('overview')}
