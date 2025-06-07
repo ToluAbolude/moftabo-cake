@@ -26,12 +26,12 @@ const ImageModal = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl w-full p-0 bg-black/90 border-none">
-        <div className="relative">
+      <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full p-0 bg-black/95 border-none flex items-center justify-center">
+        <div className="relative w-full h-full flex items-center justify-center">
           <Button
             variant="ghost"
             size="icon"
-            className="absolute top-4 right-4 z-10 text-white hover:bg-white/20"
+            className="absolute top-4 right-4 z-20 text-white hover:bg-white/20 bg-black/30"
             onClick={onClose}
           >
             <X className="h-6 w-6" />
@@ -42,7 +42,7 @@ const ImageModal = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 text-white hover:bg-white/20"
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-white/20 bg-black/30"
                 onClick={onPrevious}
               >
                 <ChevronLeft className="h-8 w-8" />
@@ -51,7 +51,7 @@ const ImageModal = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 text-white hover:bg-white/20"
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 text-white hover:bg-white/20 bg-black/30"
                 onClick={onNext}
               >
                 <ChevronRight className="h-8 w-8" />
@@ -62,10 +62,10 @@ const ImageModal = ({
           <img
             src={currentImage}
             alt={`Cake design ${currentImageIndex + 1}`}
-            className="w-full h-auto max-h-[80vh] object-contain"
+            className="max-w-full max-h-full object-contain"
           />
 
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm bg-black/50 px-3 py-1 rounded">
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white text-sm bg-black/70 px-3 py-1 rounded z-10">
             {currentImageIndex + 1} of {images.length}
           </div>
         </div>
