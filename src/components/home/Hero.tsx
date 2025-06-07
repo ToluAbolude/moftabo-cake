@@ -85,8 +85,8 @@ const Hero = () => {
             
             <div className="absolute -bottom-6 -right-6 bg-cake-purple text-white rounded-full p-6 shadow-lg z-20">
               <div className="text-center">
-                <div className="text-lg font-bold">Fresh</div>
-                <div className="text-sm">Daily</div>
+                <div className="text-lg font-bold">Artisan</div>
+                <div className="text-sm">Made</div>
               </div>
             </div>
           </div>
