@@ -1,6 +1,13 @@
 
 import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import 'jspdf-autotable';
+
+// Extend jsPDF type to include autoTable
+declare module 'jspdf' {
+  interface jsPDF {
+    autoTable: (options: any) => jsPDF;
+  }
+}
 
 interface OrderData {
   id: string;
@@ -111,7 +118,7 @@ export const exportToPDF = (
     ['Total Questions', stats.totalQuestions.toString(), `${stats.questionsGrowth.toFixed(2)}%`]
   ];
 
-  autoTable(doc, {
+  doc.autoTable({
     startY: yPosition,
     head: [['Metric', 'Value', 'Growth Rate']],
     body: statsData,
@@ -133,7 +140,7 @@ export const exportToPDF = (
     data.visits.toLocaleString()
   ]);
 
-  autoTable(doc, {
+  doc.autoTable({
     startY: yPosition,
     head: [['Month', 'Sales', 'Visits']],
     body: monthlyData,
@@ -177,7 +184,7 @@ export const exportToPDF = (
     ];
   });
 
-  autoTable(doc, {
+  doc.autoTable({
     startY: yPosition,
     head: [['Order ID', 'Date', 'Customer', 'Amount', 'Status', 'Items']],
     body: ordersData,
