@@ -49,7 +49,7 @@ const Hero = () => {
 
             <div className="grid grid-cols-3 gap-6 text-center lg:text-left">
               <div>
-                <div className="text-2xl font-bold text-cake-purple">500+</div>
+                <div className="text-2xl font-bold text-cake-purple">100+</div>
                 <div className="text-sm text-gray-600">Happy Customers</div>
               </div>
               <div>
